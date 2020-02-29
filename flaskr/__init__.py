@@ -1,5 +1,6 @@
 from flask import Flask
-
+import os
+from flask_sqlalchemy import SQLAlchemy
 
 def create_app(test_config=None):
     # create and configure the app
@@ -8,6 +9,7 @@ def create_app(test_config=None):
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
     )
+    db=SQLAlchemy(app)
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
@@ -23,8 +25,21 @@ def create_app(test_config=None):
         pass
 
     # a simple page that says hello
-    @app.route('/hello')
+    @app.route('/')
     def hello():
         return 'Hello, World!'
+
+    @app.route('/create_bot', methods=["POST"])
+    def create_bot():
+        if (request.method=="POST"):
+            form = request.form
+            name = form['bot_name']
+            algorithm = form['bot_algorithm']
+            bot = Bot(name,algorithm,Log())
+            user = User(form['user_name'],bot)
+            db.session.add(user)
+            db.session.commit()
+            return redirect(url_for('/'))
+        return 'Hello World'
 
     return app
