@@ -1,4 +1,1 @@
-./client/node_modules/
-reqs/
-*.pyc
-.vscode
+./client/node_modules
