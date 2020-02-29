@@ -1,11 +1,16 @@
 import os
 from flask import Flask
+<<<<<<< HEAD
+import os
+from flask_sqlalchemy import SQLAlchemy
+=======
 from flask import redirect, request
 import requests 
 
 _client_id = "3c49486c11e7447df67dbbc26fb1168d"
 _client_secret = "076f599533ee5116190e7246b3c1a913c8e2fd31" 
 _domain = "http://localhost:5000"
+>>>>>>> bed5f16d38171ca176b5c776ffda0890ba30e066
 
 def create_app(test_config=None):
     # create and configure the app
@@ -14,6 +19,7 @@ def create_app(test_config=None):
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
     )
+    db=SQLAlchemy(app)
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
@@ -29,10 +35,23 @@ def create_app(test_config=None):
         pass
 
     # a simple page that says hello
-    @app.route('/hello')
+    @app.route('/')
     def hello():
         return 'Hello, World!'
 
+    @app.route('/create_bot', methods=["POST"])
+    def create_bot():
+        if (request.method=="POST"):
+            form = request.form
+            name = form['bot_name']
+            algorithm = form['bot_algorithm']
+            bot = Bot(name,algorithm,Log())
+            user = User(form['user_name'],bot)
+            db.session.add(user)
+            db.session.commit()
+            return redirect(url_for('/'))
+        return 'Hello World'
+        
     @app.route('/alpacaAuth')
     def alpacaAuth():
         callback_url = _domain + "/alpacaCallback"
