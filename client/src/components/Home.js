@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { Container, Row, Col, Tabs, Tab, Table, Alert } from 'react-bootstrap';
 
+/*<<<<<<< HEAD
 import HomeHeader from './HomeHeader.js';
 import Graph from './Graph.js';
 
-class Home extends Component {
+class Home extends Component {*/
+
+class Home extends React.Component {
     render() {
         return (
             <div>
