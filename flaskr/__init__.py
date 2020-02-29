@@ -1,16 +1,13 @@
 import os
-from flask import Flask
-<<<<<<< HEAD
+from flask import Flask,redirect,request, url_for
 import os
 from flask_sqlalchemy import SQLAlchemy
-=======
-from flask import redirect, request
 import requests 
-
+import time
 _client_id = "3c49486c11e7447df67dbbc26fb1168d"
 _client_secret = "076f599533ee5116190e7246b3c1a913c8e2fd31" 
 _domain = "http://localhost:5000"
->>>>>>> bed5f16d38171ca176b5c776ffda0890ba30e066
+access_token = ""
 
 def create_app(test_config=None):
     # create and configure the app
@@ -56,12 +53,13 @@ def create_app(test_config=None):
     def alpacaAuth():
         callback_url = _domain + "/alpacaCallback"
         print(callback_url)
-        oauth_url = r"https://app.alpaca.markets/oauth/authorize?response_type=code&client_id=" + _client_id + r"&redirect_uri=" + callback_url + r"&state=RUlMvZWMRU1fZvQKk3jOI1XIuGHoD15e&scope=account:write%20trading%20data"
+        oauth_url = "https://app.alpaca.markets/oauth/authorize?response_type=code&client_id=" + _client_id + "&redirect_uri=" + callback_url + "&state=RUlMvZWMRU1fZvQKk3jOI1XIuGHoD15e&scope=account:write%20trading%20data"
         
         return redirect(oauth_url, 302)
 
     @app.route('/alpacaCallback', methods=['GET','POST'])
     def alpacaCallback():
+        global access_token
         callback_url = _domain + "/alpacaCallback"
         code = request.args.get('code')
         
@@ -77,11 +75,18 @@ def create_app(test_config=None):
         # TODO: Set a cookie here to allow the user to stay logged in
         res = requests.post(tokenUrl,data=data)
         tempData = res.json()
+        access_token=tempData['access_token']
         
         print(tempData)
-        authorization_header = {"Authorization":"Bearer {}".format(tempData["access_token"]), "Content-Type":"application/json"}
+        return redirect(url_for('purchase'))
+        
+    @app.route('/purchase')
+    def purchase():
+        global access_token
+        authorization_header = {'Authorization':'Bearer {}'.format(access_token),"Content-Type":"application/json"}
         print(authorization_header)
-        buy_url = 'https://api.alpaca.markets/v2/orders'
+        print(access_token)
+        buy_url = 'https://paper-api.alpaca.markets/v2/orders'
         params_json = {
             'symbol': 'iipr',
             'qty': 100,
