@@ -1,16 +1,13 @@
 import os
 from flask import Flask
-<<<<<<< HEAD
 import os
 from flask_sqlalchemy import SQLAlchemy
-=======
 from flask import redirect, request
 import requests 
 
-_client_id = "3c49486c11e7447df67dbbc26fb1168d"
-_client_secret = "076f599533ee5116190e7246b3c1a913c8e2fd31" 
+_key = "PK0HQWF2V79VI2LPBAWA"
+_secret = "rIMHkEzJoEUcsgv1mDZGtpzJSKkuT9tMW98sW8CG"
 _domain = "http://localhost:5000"
->>>>>>> bed5f16d38171ca176b5c776ffda0890ba30e066
 
 def create_app(test_config=None):
     # create and configure the app
