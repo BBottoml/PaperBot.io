@@ -64,11 +64,11 @@ def create_app(test_config=None):
         print(authorization_header)
         buy_url = 'https://api.alpaca.markets/v2/orders'
         params_json = {
-            'symbol': 'iipr',
-            'qty': 100,
-            'side': 'buy',
-            'type': 'market',
-            'time_in_force': 'gtc',
+            "side": "buy",
+            "symbol": "IIPR",
+            "type": "market",
+            "qty": "100",
+            "time_in_force": "gtc"
         }
         
         res = requests.post(buy_url, params=params_json, headers=authorization_header)
