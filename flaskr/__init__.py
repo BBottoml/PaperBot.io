@@ -37,22 +37,52 @@ def create_app(test_config=None):
     def alpacaAuth():
         callback_url = _domain + "/alpacaCallback"
         print(callback_url)
-        oauth_url = r"https://app.alpaca.markets/oauth/authorize?response_type=code&client_id=" + _client_id + r"&redirect_uri=" + callback_url + r"&state=RUlMvZWMRU1fZvQKk3jOI1XIuGHoD15e&scope=account:write%20trading"
+        oauth_url = r"https://app.alpaca.markets/oauth/authorize?response_type=code&client_id=" + _client_id + r"&redirect_uri=" + callback_url + r"&state=RUlMvZWMRU1fZvQKk3jOI1XIuGHoD15e&scope=account:write%20trading%20data"
+        
         return redirect(oauth_url, 302)
 
     @app.route('/alpacaCallback', methods=['GET','POST'])
     def alpacaCallback():
         callback_url = _domain + "/alpacaCallback"
         code = request.args.get('code')
+        
         tokenUrl = 'https://api.alpaca.markets/oauth/token'
+        
         data = {'grant_type':'authorization_code',
                 'code':code,
                 'client_id':_client_id, # client key
                 'client_secret':_client_secret, # client secret
                 'redirect_uri': callback_url
         }
+        
+        # TODO: Set a cookie here to allow the user to stay logged in
         res = requests.post(tokenUrl,data=data)
+        tempData = res.json()
+        
+        print(tempData)
+        authorization_header = {"Authorization":"Bearer {}".format(tempData["access_token"]), "Content-Type":"application/json"}
+        print(authorization_header)
+        buy_url = 'https://api.alpaca.markets/v2/orders'
+        params_json = {
+            'symbol': 'iipr',
+            'qty': 100,
+            'side': 'buy',
+            'type': 'market',
+            'time_in_force': 'gtc',
+        }
+        
+        res = requests.post(buy_url, params=params_json, headers=authorization_header)
+
+
         return res.json()
+
+    '''''
+    This route serves as an interface between the frontend and Alpaca api
+    Purchases a specified quantity of shares for specified stock
+    '''''
+    @app.route('/api/buy')
+    def buy():
+        return "bought"
 
     return app
 
