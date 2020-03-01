@@ -1,3 +1,30 @@
 #bottom-row {
     padding-top: 20px;
 }
+
+#home-component {
+    background: white;
+}
+
+#home-screen-button {
+    position: absolute;
+    right: 0px;
+}
+
+#home-navbar {
+    position: relative;
+}
+
+#home-screen-click {
+    color: white;
+    transition: .2s ease-in all;
+}
+
+#home-screen-click:hover {
+    text-decoration: none;
+    color: rgb(101, 134, 150);
+}
+
+#home-screen-click:focus {
+    outline: none
+}

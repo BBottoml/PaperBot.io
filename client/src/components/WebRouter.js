@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Route, Router } from 'react-router-dom';
 
-import Home from './Home.js';
+import HomeHeader from './HomeHeader.js';
 import Header from'./Header.js';
 
 function WebRouter() {
@@ -9,7 +9,7 @@ function WebRouter() {
         <div>
             <Switch>
                 <Route exact path='/' component={() => <Header />} />
-                <Route exact path='/home' component={() => <Home />} />
+                <Route exact path='/home' component={() => <HomeHeader />} />
             </Switch>
         </div>
     )
