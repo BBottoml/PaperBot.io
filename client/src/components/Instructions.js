@@ -20,6 +20,7 @@ class Instructions extends Component {
             choice3: 'Buy/Sell',
             choice4: 'Buy/Sell',
             choice5: 'Buy/Sell',
+            bot_name: 'Select a Bot'
         }
     }
 
@@ -42,6 +43,10 @@ class Instructions extends Component {
 
     getChoiceFive(e) {
         this.setState({choice5: e.currentTarget.textContent});
+    }
+
+    getBotName(e) {
+        this.setState({bot_name: e.currentTarget.textContent});
     }
 
     handleTempChange(e) {
@@ -299,13 +304,13 @@ class Instructions extends Component {
                                             <Col md={5}>
                                                 <Dropdown id="instruction-dropdown">
                                                     <Dropdown.Toggle variant="info">
-                                                        Select a Bot
+                                                        {this.state.bot_name}
                                                     </Dropdown.Toggle>
 
                                                     <Dropdown.Menu>
-                                                        <Dropdown.Item>Bot 1</Dropdown.Item>
-                                                        <Dropdown.Item>Bot 2</Dropdown.Item>
-                                                        <Dropdown.Item>Bot 3</Dropdown.Item>
+                                                        <Dropdown.Item onClick={this.getBotName.bind(this)}>Bot 1</Dropdown.Item>
+                                                        <Dropdown.Item onClick={this.getBotName.bind(this)}>Bot 2</Dropdown.Item>
+                                                        <Dropdown.Item onClick={this.getBotName.bind(this)}>Bot 3</Dropdown.Item>
                                                     </Dropdown.Menu>
                                                 </Dropdown>
                                             </Col>
