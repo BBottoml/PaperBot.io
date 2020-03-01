@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 import requests 
 import json
 import base64
+from flask_cors import CORS
 
 _client_id = "3c49486c11e7447df67dbbc26fb1168d"
 _client_secret = "076f599533ee5116190e7246b3c1a913c8e2fd31" 
@@ -16,6 +17,7 @@ access_token = ""
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
+    CORS(app)
     app.config.from_mapping(
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
