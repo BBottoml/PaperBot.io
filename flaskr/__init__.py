@@ -71,9 +71,23 @@ def create_app(test_config=None):
                 if (word=="if"):
                     condition=_bots[name][i]
                     i+=1
-                    value=_bots[name][i]
-                    i+=1
-                    truth_value = truth_value and process_condition(condition,value)
+                    if condition=="isHighEnough" or "isLowEnough":
+                        stock_name=_bots[name][i]
+                        i+=1
+                        value=_bots[name][i]
+                        i+=1
+                        truth_value = truth_value and process_condition(condition,value, stock_name=stock_name)
+                    else:
+                        if condition=="isColdEnough" or "isHotEnough":
+                            city_name=_bots[name][i]
+                            i+=1
+                            value=_bots[name][i]
+                            i+=1
+                            truth_value = truth_value and process_condition(condition,value,city_name=city_name)
+                        else:
+                            value=_bots[name][i]
+                            i+=1
+                            truth_value = truth_value and process_condition(condition,value)
                 if (word=="then"):
                     action=_bots[name][i]
                     i+=1
@@ -83,8 +97,34 @@ def create_app(test_config=None):
                     i+=1
                     if (truth_value):
                         execute_order(action,num_shares,stock_name)
-            
 
+    def process_condition(condition,value, stock_name="", city_name=""):
+        if condition=="isTrending":
+            return isTrending(value)
+        if condition=="isLowEnough":
+            return isLowEnough(stock_name,value)
+        if condition=="isHighEnough":
+            return isHighEnough(stock_name,value)
+        } 
+        if condition=="isColdEnough":
+            return isColdEnough(city_name, value)
+        if condition=="isHotEnough":
+            return not isColdEnough(city_name, value)
+        return False
+
+    def execute_order(action,num,shares,stock_name):
+        params={
+            "side":"sell",
+            "symbol":stock_name,
+            "type":"market",
+            "qty":num,
+            "time_in_force":"gtc"
+        }
+        if action=="sell":
+            requests.post('/api/sell',data=params)
+        if (action=="buy"):
+            params["side"]="buy"
+            requests.post('/purchase',data=params)
     @app.route('/alpacaAuth')
     def alpacaAuth():
         callback_url = _domain + "/alpacaCallback"
