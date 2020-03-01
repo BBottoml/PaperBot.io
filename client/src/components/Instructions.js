@@ -81,9 +81,6 @@ class Instructions extends Component {
         .then((res)=> {
             console.log(res);
         });
-
-        
-
     }
 
     render() {

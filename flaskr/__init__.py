@@ -259,8 +259,7 @@ def create_app(test_config=None):
 
         temp = float(response.text.split('"main":{"temp":')[1].split(",")[0])
         temp = 1.8 * (temp - 273) + 32
-
-        return temp < sometemp
+        return temp < float(sometemp)
 
     def isHighEnough(ticker, someprice):
         url = "https://finnhub-realtime-stock-price.p.rapidapi.com/quote"
