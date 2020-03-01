@@ -113,7 +113,9 @@ class Instructions extends Component {
     }
 
     handleLogin3() {
-        //console.log(this.state.choice1);
+        console.log("Stock Number" + numberStocks);
+        console.log("Stock Name" + stockName);
+        console.log("Price"+ price);
 
         let str = `if isHighEnough ${stockName} ${price} then buy ${numberStocks} ${stockName}`
         let params = {"bot_algorithm": str}
@@ -234,7 +236,7 @@ class Instructions extends Component {
                                                         <Dropdown.Item onClick={this.getChoiceThree.bind(this)}>Sell</Dropdown.Item>
                                                     </Dropdown.Menu></Dropdown>
                                                 </div>
-                                                <div className="div-inline"><Form><input input size="7"type="text" name="name" placeholder="Number" value={this.state.numberStocks} onChange={this.handleStockChange}/></Form></div>
+                                                <div className="div-inline"><Form><input input size="7"type="text" name="name" placeholder="Number" value={this.state.numberStocks} onChange={this.handleNumChange}/></Form></div>
                                                 <div className="div-inline"><Form><input input size="10"type="text" name="name" placeholder="Stock Name" value={this.state.stockName} onChange={this.handleStockChange}/></Form></div>
                                                 shares.
                                                 <br></br>
@@ -256,7 +258,7 @@ class Instructions extends Component {
                                                         <Dropdown.Item onClick={this.getChoiceFour.bind(this)}>Sell</Dropdown.Item>
                                                     </Dropdown.Menu></Dropdown>
                                                 </div>
-                                                <div className="div-inline"><Form><input input size="7" type="text" name="name" placeholder="Number" value={this.state.numberStocks} onChange={this.handleStockChange}/></Form></div>
+                                                <div className="div-inline"><Form><input input size="7" type="text" name="name" placeholder="Number" value={this.state.numberStocks} onChange={this.handleNumChange}/></Form></div>
                                                 <div className="div-inline"><Form><input input size="10" type="text" name="name" placeholder="Stock Name" value={this.state.stockName} onChange={this.handleStockChange}/></Form></div>
                                                 shares.
                                                 <br></br>
