@@ -76,11 +76,18 @@ def create_app(test_config=None):
                         i+=1
                         value=_bots[name][i]
                         i+=1
-                        truth_value = truth_value and process_condition(condition,stock_name,value)
+                        truth_value = truth_value and process_condition(condition,value, stock_name=stock_name)
                     else:
-                        value=_bots[name][i]
-                        i+=1
-                        truth_value = truth_value and process_condition(condition,value)
+                        if condition=="isColdEnough" or "isHotEnough":
+                            city_name=_bots[name][i]
+                            i+=1
+                            value=_bots[name][i]
+                            i+=1
+                            truth_value = truth_value and process_condition(condition,value,city_name=city_name)
+                        else:
+                            value=_bots[name][i]
+                            i+=1
+                            truth_value = truth_value and process_condition(condition,value)
                 if (word=="then"):
                     action=_bots[name][i]
                     i+=1
@@ -91,7 +98,7 @@ def create_app(test_config=None):
                     if (truth_value):
                         execute_order(action,num_shares,stock_name)
 
-    def process_condition(condition,value, stock_name=""):
+    def process_condition(condition,value, stock_name="", city_name=""):
         if condition=="isTrending":
             return isTrending(value)
         if condition=="isLowEnough":
@@ -99,6 +106,10 @@ def create_app(test_config=None):
         if condition=="isHighEnough":
             return isHighEnough(stock_name,value)
         } 
+        if condition=="isColdEnough":
+            return isColdEnough(city_name, value)
+        if condition=="isHotEnough":
+            return not isColdEnough(city_name, value)
         return False
 
     def execute_order(action,num,shares,stock_name):
