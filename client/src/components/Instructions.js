@@ -3,6 +3,8 @@ import { Dropdown, Container, Row, Col, Button, FormGroup } from 'react-bootstra
 import { Animated } from 'react-animated-css';
 import Slider from 'react-slick';
 import Form from 'react-bootstrap/Form';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
 
 var temp1;
 var numberStocks;
@@ -21,9 +23,12 @@ class Instructions extends Component {
             choice3: 'Buy/Sell',
             choice4: 'Buy/Sell',
             choice5: 'Buy/Sell',
+            bot_name: 'Select a Bot'
         }
     }
-
+    refreshPage() {
+        NotificationManager.success("Successfully created bot");
+    }
 
     getChoiceOne(e) {
         this.setState({choice1: e.currentTarget.textContent});
@@ -43,6 +48,10 @@ class Instructions extends Component {
 
     getChoiceFive(e) {
         this.setState({choice5: e.currentTarget.textContent});
+    }
+
+    getBotName(e) {
+        this.setState({bot_name: e.currentTarget.textContent});
     }
 
     handleTempChange(e) {
@@ -73,7 +82,7 @@ class Instructions extends Component {
     
 
     handleLogin1() {
-        console.log("EMail: " + temp1);
+        console.log("Email: " + temp1);
         console.log("Stock Number" + numberStocks);
         console.log("Stock Name" + stockName);
         //console.log(this.state.choice1);
@@ -227,7 +236,7 @@ class Instructions extends Component {
                                                 shares.
                                                 <br></br>
                                                 <br></br>
-                                                <Button id="submitButton" onClick={this.handleLogin1}>Submit</Button> 
+                                                <Button id="submitButton" onClick={this.handleLogin, this.refreshPage}>Submit</Button> 
                                         </p> 
                                     </div>
                                     <div id="slider-div">
@@ -248,7 +257,7 @@ class Instructions extends Component {
                                                 shares.
                                                 <br></br>
                                                 <br></br>
-                                                <Button id="submitButton" onClick={this.handleLogin2}>Submit</Button> 
+                                                <Button id="submitButton" onClick={this.handleLogin2, this.refreshPage}>Submit</Button> 
                                         </p>
                                     </div>
                                     <div id="slider-div">
@@ -270,7 +279,7 @@ class Instructions extends Component {
                                                 shares.
                                                 <br></br>
                                                 <br></br>
-                                                <Button id="submitButton" onClick={this.handleLogin3}>Submit</Button> 
+                                                <Button id="submitButton" onClick={this.handleLogin3, this.refreshPage}>Submit</Button> 
                                         </p>
                                     </div>
                                     <div id="slider-div">
@@ -328,13 +337,13 @@ class Instructions extends Component {
                                             <Col md={5}>
                                                 <Dropdown id="instruction-dropdown">
                                                     <Dropdown.Toggle variant="info">
-                                                        Select a Bot
+                                                        {this.state.bot_name}
                                                     </Dropdown.Toggle>
 
                                                     <Dropdown.Menu>
-                                                        <Dropdown.Item>Bot 1</Dropdown.Item>
-                                                        <Dropdown.Item>Bot 2</Dropdown.Item>
-                                                        <Dropdown.Item>Bot 3</Dropdown.Item>
+                                                        <Dropdown.Item onClick={this.getBotName.bind(this)}>Bot 1</Dropdown.Item>
+                                                        <Dropdown.Item onClick={this.getBotName.bind(this)}>Bot 2</Dropdown.Item>
+                                                        <Dropdown.Item onClick={this.getBotName.bind(this)}>Bot 3</Dropdown.Item>
                                                     </Dropdown.Menu>
                                                 </Dropdown>
                                             </Col>
@@ -355,6 +364,7 @@ class Instructions extends Component {
                         </Row>
                     </Container>
                 </Animated>
+                <NotificationContainer />
             </div>
         );
     }
