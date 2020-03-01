@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Dropdown, Container, Row, Col, Button } from 'react-bootstrap';
+import { Dropdown, Container, Row, Col, Button, FormGroup } from 'react-bootstrap';
 import { Animated } from 'react-animated-css';
 import Slider from 'react-slick';
+import Form from 'react-bootstrap/Form'
 
 class Instructions extends Component {
 
@@ -28,9 +29,24 @@ class Instructions extends Component {
                                 <Slider id="instruction-slider" {...settings}>
                                     <div id="slider-div">
                                         <p id="instruction-card">
-                                            Some quick example text to build on the card 
-                                            title and make up the bulk of the card's content.
-                                        </p>
+                                            If the temperature is above<div className="div-inline"><Form><input type="text" name="name" placeholder="Degrees Fahrenheit"/></Form></div> then, 
+                                                <div className="div-inline">    
+                                                    <Dropdown>
+                                                    <Dropdown.Toggle variant="info">
+                                                        Buy/Sell
+                                                    </Dropdown.Toggle>
+                                                    <Dropdown.Menu>
+                                                        <Dropdown.Item>Buy</Dropdown.Item>
+                                                        <Dropdown.Item>Sell</Dropdown.Item>
+                                                    </Dropdown.Menu></Dropdown>
+                                                </div>
+                                                <div className="div-inline"><Form><input type="text" name="name" placeholder="number"/></Form></div>
+                                                <div className="div-inline"><Form><input type="text" name="name" placeholder="Stock Name"/></Form></div>
+                                                shares.
+                                                <br></br>
+                                                <br></br>
+                                                <Button id="submitButton">Submit</Button> 
+                                        </p> 
                                     </div>
                                     <div id="slider-div">
                                         <p id="instruction-card">
