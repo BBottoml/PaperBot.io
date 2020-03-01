@@ -117,25 +117,35 @@ def create_app(test_config=None):
         print(tempData)
         return redirect(url_for('purchase'))
         
-    @app.route('/purchase')
+    @app.route('/purchase', methods=["POST"])
     def purchase():
         global access_token
-        authorization_header = {'Authorization':'Bearer {}'.format(access_token),"Content-Type":"application/json"}
-        print(authorization_header)
-        print(access_token)
-        buy_url = 'https://paper-api.alpaca.markets/v2/orders'
-        params_json = {
-            "side": "buy",
-            "symbol": "IIPR",
-            "type": "market",
-            "qty": "100",
-            "time_in_force": "gtc"
-        }
-        
-        res = requests.post(buy_url, params=params_json, headers=authorization_header)
+        if (request.method=="POST"):
+            buy_url = 'https://paper-api.alpaca.markets/v2/orders'
 
+            # auth header setup
+            authorization_header = {"Authorization":"Bearer {}".format(access_token), "Content-Type":"application/json"}
+            authorization_header = json.dumps(authorization_header)
+            authorization_header = json.loads(authorization_header) 
 
-        return res.json()
+            # request
+            res = requests.post(buy_url, data=request.data, headers=authorization_header)
+
+            return res.json()
+
+    @app.route('/api/sell', methods=['POST'])
+    def sell():
+        global access_token
+        if (request.method=="POST"):
+            sell_url = 'https://paper-api.alpaca.markets/v2/orders'
+
+            authorization_header = {"Authorization":"Bearer {}".format(access_token), "Content-Type":"application/json"}
+            authorization_header = json.dumps(authorization_header)
+            authorization_header = json.loads(authorization_header) 
+            
+            res = requests.post(sell_url, data=request.data, headers=authorization_header)
+
+            return res.json()
     
     def isTrending(trend):
         client_key = 'uFTmFW66AAMEUwx3rZlZDMSCf'
