@@ -125,6 +125,7 @@ def create_app(test_config=None):
         if (action=="buy"):
             params["side"]="buy"
             requests.post('/purchase',data=params)
+            
     @app.route('/alpacaAuth')
     def alpacaAuth():
         callback_url = _domain + "/alpacaCallback"
