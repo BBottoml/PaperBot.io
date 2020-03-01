@@ -71,14 +71,14 @@ def create_app(test_config=None):
                 if (word=="if"):
                     condition=_bots[name][i]
                     i+=1
-                    if condition=="isHighEnough" or "isLowEnough":
+                    if condition=="isHighEnough" or condition=="isLowEnough":
                         stock_name=_bots[name][i]
                         i+=1
                         value=_bots[name][i]
                         i+=1
                         truth_value = truth_value and process_condition(condition,value, stock_name=stock_name)
                     else:
-                        if condition=="isColdEnough" or "isHotEnough":
+                        if condition=="isColdEnough" or condition=="isHotEnough":
                             city_name=_bots[name][i]
                             i+=1
                             value=_bots[name][i]
@@ -122,10 +122,12 @@ def create_app(test_config=None):
             "qty":num_shares,
             "time_in_force":"gtc"
         }
+        params = '{"side":"sell","symbol":"' + stock_name + '","type":"market","qty":"' + num_shares + '","time_in_force": "gtc"}' 
+        print(params)
         if action=="sell":
             requests.post(_domain+'/api/sell',data=params)
         if (action=="buy"):
-            params["side"]="buy"
+            params = '{"side":"buy","symbol":"' + stock_name + '","type":"market","qty":"' + num_shares + '","time_in_force": "gtc"}' 
             requests.post(_domain+'/api/purchase',data=params)
             
     @app.route('/alpacaAuth')
@@ -172,8 +174,6 @@ def create_app(test_config=None):
 
             # request
             res = requests.post(buy_url, data=request.data, headers=authorization_header)
-            print("I just purchased some stuff")
-            print(res)
             return res.json()
 
     @app.route('/api/sell', methods=['POST'])
@@ -185,12 +185,12 @@ def create_app(test_config=None):
             authorization_header = {"Authorization":"Bearer {}".format(access_token), "Content-Type":"application/json"}
             authorization_header = json.dumps(authorization_header)
             authorization_header = json.loads(authorization_header) 
-            
             res = requests.post(sell_url, data=request.data, headers=authorization_header)
 
             return res.json()
     
     def isTrending(trend):
+        trend = trend.lower()
         client_key = 'uFTmFW66AAMEUwx3rZlZDMSCf'
         client_secret = 'LtlxIoQpBvHcqjpSMIA9Gs2E9wCJbr7xkx9EpSdBYoNedaZUgh'
 
