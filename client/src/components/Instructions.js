@@ -64,13 +64,19 @@ class Instructions extends Component {
         console.log("EMail: " + temp1);
         console.log("Stock Number" + numberStocks);
         console.log("Stock Name" + stockName);
-        console.log(this.state['choice1']);
+        //console.log(this.state.choice1);
 
-        var str = `if isHotEnough Chicago ${temp1} then ${this.state['choice1']} ${numberStocks} ${stockName}`
+        let str = `if isHotEnough Chicago ${temp1} then buy ${numberStocks} ${stockName}`
+        let params = {"bot_algorithm": str}
 
-        fetch('localhost:5000/create_bot', {
+        fetch('http://localhost:5000/create_bot?'+'bot_algorithm='+str, {
             method: 'POST',
-            body: JSON.stringify(str)
+            //body: JSON.stringify(params),
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': "*",
+                'Access-Control-Allow-Headers': "*"
+            }
         }).then(res => res.json)
         .then((res)=> {
             console.log(res);

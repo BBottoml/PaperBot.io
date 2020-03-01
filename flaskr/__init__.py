@@ -46,8 +46,9 @@ def create_app(test_config=None):
     @app.route('/update_bot', methods=["POST"])
     def create_bot():
         if (request.method=="POST"):
+            print(request.values)
             form = request.values
-            name="Bot"+len(_bots.keys())
+            name="Bot"+str(len(_bots.keys()))
             algorithm = form['bot_algorithm']
             _bots[name]=algorithm.split()
             print(_bots)
