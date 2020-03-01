@@ -13,6 +13,7 @@ _domain = "http://localhost:5000"
 _domain_redir = "http://localhost:3000"
 
 _bots = dict()
+_trades = list()
 access_token = ""
 def create_app(test_config=None):
     # create and configure the app
@@ -192,7 +193,7 @@ def create_app(test_config=None):
             authorization_header = json.dumps(authorization_header)
             authorization_header = json.loads(authorization_header) 
             res = requests.post(sell_url, data=request.data, headers=authorization_header)
-
+            _trades.append(request.data)
             return res.json()
 
     @app.route('/api/numbots', methods=['GET'])
@@ -206,6 +207,12 @@ def create_app(test_config=None):
         global _bots
         if request.method=='GET':
             return _bots[request.values["num"]]
+    
+    @app.route('/api/trades', methods=['GET'])
+    def get_trades():
+        global _trades
+        if (request.method=='GET'):
+            return _trades
     
     def isTrending(trend):
         trend = trend.lower()
