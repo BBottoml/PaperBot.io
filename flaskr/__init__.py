@@ -135,25 +135,11 @@ def create_app(test_config=None):
 
 
         return res.json()
-
-<<<<<<< HEAD
-    '''''
-    This route serves as an interface between the frontend and Alpaca api
-    Purchases a specified quantity of shares for specified stock
-    '''''
-    @app.route('/api/buy')
-    def buy():
-        return "bought"
-=======
-            return res.json()
     
     def isTrending(trend):
         client_key = 'uFTmFW66AAMEUwx3rZlZDMSCf'
         client_secret = 'LtlxIoQpBvHcqjpSMIA9Gs2E9wCJbr7xkx9EpSdBYoNedaZUgh'
->>>>>>> d496cf6d09b1d0282f9e4f12171044483157246b
-
-    return app
-
+        
         key_secret = '{}:{}'.format(client_key, client_secret).encode('ascii')
         b64_encoded_key = base64.b64encode(key_secret)
         b64_encoded_key = b64_encoded_key.decode('ascii')
