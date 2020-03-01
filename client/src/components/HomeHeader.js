@@ -21,7 +21,7 @@ class HomeHeader extends Component {
             this.setState({page: 'dashboard'});
         }
     }
-//<img src={require("../res/trash.png")}/>
+
     render() {
         return (
             <div>

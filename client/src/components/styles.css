@@ -2,7 +2,7 @@
     padding-top: 20px;
 }
 
-#home-component {
+.home-component {
     background: white;
 }
 
@@ -68,4 +68,10 @@
     border-radius: 15px;
     margin-top: 15px;
     margin-left: 10px;
+}
+
+#home-log {
+    font-family: 'Oxygen';
+    font-size: 24px;
+    padding-left: 20px;
 }
