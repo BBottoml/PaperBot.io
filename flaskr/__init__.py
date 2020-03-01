@@ -71,14 +71,14 @@ def create_app(test_config=None):
                 if (word=="if"):
                     condition=_bots[name][i]
                     i+=1
-                    if condition=="isHighEnough" or "isLowEnough":
+                    if condition=="isHighEnough" or condition=="isLowEnough":
                         stock_name=_bots[name][i]
                         i+=1
                         value=_bots[name][i]
                         i+=1
                         truth_value = truth_value and process_condition(condition,value, stock_name=stock_name)
                     else:
-                        if condition=="isColdEnough" or "isHotEnough":
+                        if condition=="isColdEnough" or condition=="isHotEnough":
                             city_name=_bots[name][i]
                             i+=1
                             value=_bots[name][i]
@@ -97,12 +97,15 @@ def create_app(test_config=None):
                     i+=1
                     if (truth_value):
                         execute_order(action,num_shares,stock_name)
+                    else: 
+                        print(name,"was unsuccessful in execution")
+        return 'Successfully executed all bot orders!'
 
     def process_condition(condition,value, stock_name="", city_name=""):
         if condition=="isTrending":
             return isTrending(value)
         if condition=="isLowEnough":
-            return not isLowEnough(stock_name,value)
+            return not isHighEnough(stock_name,value)
         if condition=="isHighEnough":
             return isHighEnough(stock_name,value)
         if condition=="isColdEnough":
@@ -111,19 +114,21 @@ def create_app(test_config=None):
             return not isColdEnough(city_name, value)
         return False
 
-    def execute_order(action,num,shares,stock_name):
+    def execute_order(action,num_shares,stock_name):
         params={
             "side":"sell",
             "symbol":stock_name,
             "type":"market",
-            "qty":num,
+            "qty":num_shares,
             "time_in_force":"gtc"
         }
+        params = '{"side":"sell","symbol":"' + stock_name + '","type":"market","qty":"' + num_shares + '","time_in_force": "gtc"}' 
+        print(params)
         if action=="sell":
-            requests.post('/api/sell',data=params)
+            requests.post(_domain+'/api/sell',data=params)
         if (action=="buy"):
-            params["side"]="buy"
-            requests.post('/purchase',data=params)
+            params = '{"side":"buy","symbol":"' + stock_name + '","type":"market","qty":"' + num_shares + '","time_in_force": "gtc"}' 
+            requests.post(_domain+'/api/purchase',data=params)
             
     @app.route('/alpacaAuth')
     def alpacaAuth():
@@ -169,7 +174,6 @@ def create_app(test_config=None):
 
             # request
             res = requests.post(buy_url, data=request.data, headers=authorization_header)
-
             return res.json()
 
     @app.route('/api/sell', methods=['POST'])
@@ -181,12 +185,12 @@ def create_app(test_config=None):
             authorization_header = {"Authorization":"Bearer {}".format(access_token), "Content-Type":"application/json"}
             authorization_header = json.dumps(authorization_header)
             authorization_header = json.loads(authorization_header) 
-            
             res = requests.post(sell_url, data=request.data, headers=authorization_header)
 
             return res.json()
     
     def isTrending(trend):
+        trend = trend.lower()
         client_key = 'uFTmFW66AAMEUwx3rZlZDMSCf'
         client_secret = 'LtlxIoQpBvHcqjpSMIA9Gs2E9wCJbr7xkx9EpSdBYoNedaZUgh'
 
@@ -253,6 +257,6 @@ def create_app(test_config=None):
 
         price = float(response.text.split(":")[1].split(",")[0])
 
-        return price > someprice
+        return price > float(someprice)
 
     return app
