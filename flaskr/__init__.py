@@ -52,6 +52,7 @@ def create_app(test_config=None):
             algorithm = form['bot_algorithm']
             _bots[name]=algorithm.split()
             print(_bots)
+            process_algorithm()
             return "Successfully created/updated bot!"
         return "Error in creating bot!"
 
