@@ -53,12 +53,13 @@ def create_app(test_config=None):
     def alpacaAuth():
         callback_url = _domain + "/alpacaCallback"
         print(callback_url)
-        oauth_url = r"https://app.alpaca.markets/oauth/authorize?response_type=code&client_id=" + _client_id + r"&redirect_uri=" + callback_url + r"&state=RUlMvZWMRU1fZvQKk3jOI1XIuGHoD15e&scope=account:write%20trading%20data"
+        oauth_url = "https://app.alpaca.markets/oauth/authorize?response_type=code&client_id=" + _client_id + "&redirect_uri=" + callback_url + "&state=RUlMvZWMRU1fZvQKk3jOI1XIuGHoD15e&scope=account:write%20trading%20data"
         
         return redirect(oauth_url, 302)
 
     @app.route('/alpacaCallback', methods=['GET','POST'])
     def alpacaCallback():
+        global access_token
         callback_url = _domain + "/alpacaCallback"
         code = request.args.get('code')
         
@@ -74,11 +75,18 @@ def create_app(test_config=None):
         # TODO: Set a cookie here to allow the user to stay logged in
         res = requests.post(tokenUrl,data=data)
         tempData = res.json()
+        access_token=tempData['access_token']
         
         print(tempData)
-        authorization_header = {"Authorization":"Bearer {}".format(tempData["access_token"]), "Content-Type":"application/json"}
+        return redirect(url_for('purchase'))
+        
+    @app.route('/purchase')
+    def purchase():
+        global access_token
+        authorization_header = {'Authorization':'Bearer {}'.format(access_token),"Content-Type":"application/json"}
         print(authorization_header)
-        buy_url = 'https://api.alpaca.markets/v2/orders'
+        print(access_token)
+        buy_url = 'https://paper-api.alpaca.markets/v2/orders'
         params_json = {
             "side": "buy",
             "symbol": "IIPR",
