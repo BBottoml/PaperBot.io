@@ -45,11 +45,12 @@ def create_app(test_config=None):
     def create_bot():
         if (request.method=="POST"):
             form = request.values
-            name = form['bot_name']
+            name="Bot"+len(form.keys())
             algorithm = form['bot_algorithm']
             _bots[name]=algorithm.split()
             print(_bots)
-        return redirect(url_for('index')) 
+            return "Successfully created/updated bot!"
+        return "Error in creating bot!"
 
     @app.route('/delete_bot', methods=["POST"])
     def delete_bot():
