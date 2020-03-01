@@ -31,7 +31,7 @@ class Instructions extends Component {
                                 <Slider id="instruction-slider" {...settings}>
                                     <div id="slider-div">
                                         <p id="instruction-card">
-                                            If the temperature is above<div className="div-inline"><Form><input type="text" name="name" placeholder="Degrees Fahrenheit"/></Form></div> then, 
+                                            If the temperature is above<div className="div-inline"><Form><input size="17" input type="text" name="name" placeholder="Degrees Fahrenheit"/></Form></div> then, 
                                                 <div className="div-inline">    
                                                     <Dropdown>
                                                     <Dropdown.Toggle variant="info">
@@ -43,7 +43,7 @@ class Instructions extends Component {
                                                     </Dropdown.Menu></Dropdown>
                                                 </div>
                                                 <div className="div-inline"><Form><input size="6" type="text" name="name" placeholder="Number"/></Form></div>
-                                                <div className="div-inline"><Form><input type="text" name="name" placeholder="Stock Name"/></Form></div>
+                                                <div className="div-inline"><Form><input input size="10" type="text" name="name" placeholder="Stock Name"/></Form></div>
                                                 shares.
                                                 <br></br>
                                                 <br></br>
@@ -52,7 +52,7 @@ class Instructions extends Component {
                                     </div>
                                     <div id="slider-div">
                                         <p id="instruction-card">
-                                            If the temperature is below<div className="div-inline"><Form><input type="text" name="name" placeholder="Degrees Fahrenheit"/></Form></div> then, 
+                                            If the temperature is below<div className="div-inline"><Form><input input size="17" type="text" name="name" placeholder="Degrees Fahrenheit"/></Form></div> then, 
                                             <div className="div-inline">    
                                                 <Dropdown>
                                                 <Dropdown.Toggle variant="info">
@@ -63,8 +63,8 @@ class Instructions extends Component {
                                                     <Dropdown.Item>Sell</Dropdown.Item>
                                                 </Dropdown.Menu></Dropdown>
                                             </div>
-                                                <div className="div-inline"><Form><input type="text" name="name" placeholder="Number"/></Form></div>
-                                                <div className="div-inline"><Form><input type="text" name="name" placeholder="Stock Name"/></Form></div>
+                                                <div className="div-inline"><Form><input input size="6" type="text" name="name" placeholder="Number"/></Form></div>
+                                                <div className="div-inline"><Form><input input size="10" type="text" name="name" placeholder="Stock Name"/></Form></div>
                                                 shares.
                                                 <br></br>
                                                 <br></br>
@@ -73,8 +73,8 @@ class Instructions extends Component {
                                     </div>
                                     <div id="slider-div">
                                         <p id="instruction-card">
-                                            If<div className="div-inline"><Form><input type="text" name="name" placeholder="Stock Name"/></Form></div> is lower than,
-                                                <div className="div-inline"><Form><input type="text" name="name" placeholder="Price"/></Form></div>dollars,  
+                                            If<div className="div-inline"><Form><input input size="12"type="text" name="name" placeholder="Stock Name"/></Form></div> is lower than,
+                                                <div className="div-inline"><Form><input input size="4"type="text" name="name" placeholder="Price"/></Form></div>dollars,  
                                                 <div className="div-inline">    
                                                     <Dropdown>
                                                     <Dropdown.Toggle variant="info">
@@ -85,8 +85,8 @@ class Instructions extends Component {
                                                         <Dropdown.Item>Sell</Dropdown.Item>
                                                     </Dropdown.Menu></Dropdown>
                                                 </div>
-                                                <div className="div-inline"><Form><input type="text" name="name" placeholder="Number"/></Form></div>
-                                                <div className="div-inline"><Form><input type="text" name="name" placeholder="Stock Name"/></Form></div>
+                                                <div className="div-inline"><Form><input input size="7"type="text" name="name" placeholder="Number"/></Form></div>
+                                                <div className="div-inline"><Form><input input size="10"type="text" name="name" placeholder="Stock Name"/></Form></div>
                                                 shares.
                                                 <br></br>
                                                 <br></br>
@@ -95,8 +95,8 @@ class Instructions extends Component {
                                     </div>
                                     <div id="slider-div">
                                         <p id="instruction-card">
-                                        If<div className="div-inline"><Form><input type="text" name="name" placeholder="Stock Name"/></Form></div> is higher than,
-                                                <div className="div-inline"><Form><input type="text" name="name" placeholder="Price"/></Form></div>dollars,  
+                                        If<div className="div-inline"><Form><input input size="12" type="text" name="name" placeholder="Stock Name"/></Form></div> is higher than,
+                                                <div className="div-inline"><Form><input input size="4" type="text" name="name" placeholder="Price"/></Form></div>dollars,  
                                                 <div className="div-inline">    
                                                     <Dropdown>
                                                     <Dropdown.Toggle variant="info">
@@ -107,8 +107,8 @@ class Instructions extends Component {
                                                         <Dropdown.Item>Sell</Dropdown.Item>
                                                     </Dropdown.Menu></Dropdown>
                                                 </div>
-                                                <div className="div-inline"><Form><input type="text" name="name" placeholder="Number"/></Form></div>
-                                                <div className="div-inline"><Form><input type="text" name="name" placeholder="Stock Name"/></Form></div>
+                                                <div className="div-inline"><Form><input input size="7" type="text" name="name" placeholder="Number"/></Form></div>
+                                                <div className="div-inline"><Form><input input size="10" type="text" name="name" placeholder="Stock Name"/></Form></div>
                                                 shares.
                                                 <br></br>
                                                 <br></br>
@@ -117,7 +117,7 @@ class Instructions extends Component {
                                     </div>
                                     <div id="slider-div">
                                         <p id="instruction-card">
-                                            If <div className="div-inline"><Form><input type="text" name="name" placeholder="Number"/></Form></div> is trending on Twitter, 
+                                            If <div className="div-inline"><Form><input input size="10" type="text" name="name" placeholder="Word"/></Form></div> is trending on Twitter, 
                                             <div className="div-inline">    
                                                     <Dropdown>
                                                     <Dropdown.Toggle variant="info">
@@ -128,9 +128,12 @@ class Instructions extends Component {
                                                         <Dropdown.Item>Sell</Dropdown.Item>
                                                     </Dropdown.Menu></Dropdown>
                                             </div>
-                                            <div className="div-inline"><Form><input type="text" name="name" placeholder="Number"/></Form></div> 
-                                            <div className="div-inline"><Form><input type="text" name="name" placeholder="Stock Name"/></Form></div>
+                                            <div className="div-inline"><Form><input input size="7" type="text" name="name" placeholder="Number"/></Form></div> 
+                                            <div className="div-inline"><Form><input input size="10" type="text" name="name" placeholder="Stock Name"/></Form></div>
                                             shares.
+                                            <br></br>
+                                            <br></br>
+                                            <Button id="submitButton">Submit</Button> 
                                         </p>
                                     </div>
                                 </Slider>
