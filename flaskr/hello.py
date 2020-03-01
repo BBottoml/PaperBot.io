@@ -1,11 +1,10 @@
-import base64
 import requests
 import sys
+import base64
 if __name__ == "__main__":
-    trend = sys.argv[1]
+    trend = sys.argv[2]
     client_key = 'uFTmFW66AAMEUwx3rZlZDMSCf'
     client_secret = 'LtlxIoQpBvHcqjpSMIA9Gs2E9wCJbr7xkx9EpSdBYoNedaZUgh'
-
 
     key_secret = '{}:{}'.format(client_key, client_secret).encode('ascii')
     b64_encoded_key = base64.b64encode(key_secret)
@@ -36,4 +35,6 @@ if __name__ == "__main__":
     search_resp = requests.get(search_url, headers=search_headers, params=search_params)
     tweet_data = str(search_resp.json())
 
-    print(trend in tweet_data.lower())
+    somebool = trend in tweet_data.lower()
+    print(somebool)
+    #return somebool

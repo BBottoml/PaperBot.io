@@ -11,6 +11,7 @@
     "bootstrap": "^4.4.1",
     "chart.js": "^2.9.3",
     "react": "^16.13.0",
+    "react-animated-css": "^1.2.1",
     "react-bootstrap": "^1.0.0-beta.17",
     "react-chartjs-2": "^2.9.0",
     "react-dom": "^16.13.0",
@@ -18,7 +19,9 @@
     "react-router-dom": "^5.1.2",
     "react-router-hash-link": "^1.2.2",
     "react-scripts": "3.4.0",
-    "react-stockcharts": "^0.7.8"
+    "react-slick": "^0.25.2",
+    "react-stockcharts": "^0.7.8",
+    "slick-carousel": "^1.8.1"
   },
   "scripts": {
     "start": "react-scripts start",

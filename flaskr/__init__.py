@@ -1,8 +1,7 @@
 import os
-from flask import Flask
+from flask import Flask,redirect,request, url_for
 import os
 from flask_sqlalchemy import SQLAlchemy
-from flask import redirect, request, url_for
 import requests 
 import json
 import base64
@@ -10,7 +9,8 @@ import base64
 _client_id = "3c49486c11e7447df67dbbc26fb1168d"
 _client_secret = "076f599533ee5116190e7246b3c1a913c8e2fd31" 
 _domain = "http://localhost:5000"
-
+_bots = dict()
+access_token = ""
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
@@ -35,22 +35,56 @@ def create_app(test_config=None):
 
     # a simple page that says hello
     @app.route('/')
-    def hello():
+    def index():
         return 'Hello, World!'
 
-    @app.route('/create_bot', methods=['POST'])
+    @app.route('/create_bot', methods=["POST"])
+    @app.route('/update_bot', methods=["POST"])
     def create_bot():
         if (request.method=="POST"):
-            form = request.form
+            form = request.values
             name = form['bot_name']
             algorithm = form['bot_algorithm']
-            bot = Bot(name,algorithm,Log())
-            user = User(form['user_name'],bot)
-            db.session.add(user)
-            db.session.commit()
-            return redirect(url_for('/'))
-        return 'Hello World'
-        
+            _bots[name]=algorithm.split()
+            print(_bots)
+        return redirect(url_for('index')) 
+
+    @app.route('/delete_bot', methods=["POST"])
+    def delete_bot():
+        if (request.method=="POST"):
+            form = request.values
+            name = form['bot_name']
+            if name in _bots:
+                _bots.pop(name,None)
+            print(_bots)
+        return redirect(url_for('index')) 
+
+    @app.route('process_algorithm')
+    def process_algorithm():
+        for name in _bots.keys():
+            instruction_words_length = len(_bots[name])
+            truth_value=True
+            i=0
+            while (i<instruction_words_length):
+                word=_bots[name][i]
+                i+=1
+                if (word=="if"):
+                    condition=_bots[name][i]
+                    i+=1
+                    value=_bots[name][i]
+                    i+=1
+                    truth_value = truth_value and process_condition(condition,value)
+                if (word=="then"):
+                    action=_bots[name][i]
+                    i+=1
+                    num_shares=_bots[name][i]
+                    i+=1
+                    stock_name=_bots[name][i]
+                    i+=1
+                    if (truth_value):
+                        execute_order(action,num_shares,stock_name)
+            
+
     @app.route('/alpacaAuth')
     def alpacaAuth():
         callback_url = _domain + "/alpacaCallback"
@@ -80,9 +114,8 @@ def create_app(test_config=None):
         access_token=tempData['access_token']
         
         print(tempData)
-        print(access_token)
         return redirect(url_for('purchase'))
-
+        
     @app.route('/api/purchase', methods=['POST'])
     def purchase():
         global access_token
@@ -108,8 +141,7 @@ def create_app(test_config=None):
             authorization_header = {"Authorization":"Bearer {}".format(access_token), "Content-Type":"application/json"}
             authorization_header = json.dumps(authorization_header)
             authorization_header = json.loads(authorization_header) 
-
-            # request
+            
             res = requests.post(sell_url, data=request.data, headers=authorization_header)
 
             return res.json()
@@ -117,7 +149,6 @@ def create_app(test_config=None):
     def isTrending(trend):
         client_key = 'uFTmFW66AAMEUwx3rZlZDMSCf'
         client_secret = 'LtlxIoQpBvHcqjpSMIA9Gs2E9wCJbr7xkx9EpSdBYoNedaZUgh'
-
 
         key_secret = '{}:{}'.format(client_key, client_secret).encode('ascii')
         b64_encoded_key = base64.b64encode(key_secret)
@@ -151,4 +182,21 @@ def create_app(test_config=None):
         somebool = trend in tweet_data.lower()
         return somebool
     
+    def isColdEnough(somecity, sometemp):
+        url = "https://community-open-weather-map.p.rapidapi.com/weather"
+
+        querystring = {"callback":"test","id":"2172797","units":"%22metric%22 or %22imperial%22","mode":"xml%2C html","q":somecity}
+
+        headers = {
+            'x-rapidapi-host': "community-open-weather-map.p.rapidapi.com",
+            'x-rapidapi-key': "3fa8a208f3mshac38fad42378d21p160849jsn2a5f80aa3204"
+        }
+
+        response = requests.request("GET", url, headers=headers, params=querystring)
+
+        temp = float(response.text.split('"main":{"temp":')[1].split(",")[0])
+        temp = 1.8 * (temp - 273) + 32
+
+        return temp < sometemp
+
     return app
