@@ -1,13 +1,14 @@
 import os
-from flask import Flask,redirect,request, url_for
+from flask import Flask
 import os
 from flask_sqlalchemy import SQLAlchemy
+from flask import redirect, request, url_for
 import requests 
-import time
+import json
+
 _client_id = "3c49486c11e7447df67dbbc26fb1168d"
 _client_secret = "076f599533ee5116190e7246b3c1a913c8e2fd31" 
 _domain = "http://localhost:5000"
-access_token = ""
 
 def create_app(test_config=None):
     # create and configure the app
@@ -36,7 +37,7 @@ def create_app(test_config=None):
     def hello():
         return 'Hello, World!'
 
-    @app.route('/create_bot', methods=["POST"])
+    @app.route('/create_bot', methods=['POST'])
     def create_bot():
         if (request.method=="POST"):
             form = request.form
@@ -53,7 +54,7 @@ def create_app(test_config=None):
     def alpacaAuth():
         callback_url = _domain + "/alpacaCallback"
         print(callback_url)
-        oauth_url = "https://app.alpaca.markets/oauth/authorize?response_type=code&client_id=" + _client_id + "&redirect_uri=" + callback_url + "&state=RUlMvZWMRU1fZvQKk3jOI1XIuGHoD15e&scope=account:write%20trading%20data"
+        oauth_url = r"https://app.alpaca.markets/oauth/authorize?response_type=code&client_id=" + _client_id + r"&redirect_uri=" + callback_url + r"&state=RUlMvZWMRU1fZvQKk3jOI1XIuGHoD15e&scope=account:write%20trading%20data"
         
         return redirect(oauth_url, 302)
 
@@ -78,35 +79,38 @@ def create_app(test_config=None):
         access_token=tempData['access_token']
         
         print(tempData)
+        print(access_token)
         return redirect(url_for('purchase'))
-        
-    @app.route('/purchase')
+
+    @app.route('/api/purchase', methods=['POST'])
     def purchase():
         global access_token
-        authorization_header = {'Authorization':'Bearer {}'.format(access_token),"Content-Type":"application/json"}
-        print(authorization_header)
-        print(access_token)
-        buy_url = 'https://paper-api.alpaca.markets/v2/orders'
-        params_json = {
-            "side": "buy",
-            "symbol": "IIPR",
-            "type": "market",
-            "qty": "100",
-            "time_in_force": "gtc"
-        }
-        
-        res = requests.post(buy_url, params=params_json, headers=authorization_header)
+        if (request.method=="POST"):
+            buy_url = 'https://paper-api.alpaca.markets/v2/orders'
 
+            # auth header setup
+            authorization_header = {"Authorization":"Bearer {}".format(access_token), "Content-Type":"application/json"}
+            authorization_header = json.dumps(authorization_header)
+            authorization_header = json.loads(authorization_header) 
 
-        return res.json()
+            # request
+            res = requests.post(buy_url, data=request.data, headers=authorization_header)
 
-    '''''
-    This route serves as an interface between the frontend and Alpaca api
-    Purchases a specified quantity of shares for specified stock
-    '''''
-    @app.route('/api/buy')
-    def buy():
-        return "bought"
+            return res.json()
 
-    return app
+    @app.route('/api/sell', methods=['POST'])
+    def sell():
+        global access_token
+        if (request.method=="POST"):
+            sell_url = 'https://paper-api.alpaca.markets/v2/orders'
+
+            authorization_header = {"Authorization":"Bearer {}".format(access_token), "Content-Type":"application/json"}
+            authorization_header = json.dumps(authorization_header)
+            authorization_header = json.loads(authorization_header) 
+
+            # request
+            res = requests.post(sell_url, data=request.data, headers=authorization_header)
+
+            return res.json()
+
 
