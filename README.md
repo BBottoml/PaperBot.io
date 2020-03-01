@@ -1,2 +1,2 @@
-# HackIllinois-Proj-V2
-HackIllinois Project v2
+# PaperBot.io
+Project for HackIllinois 2020
