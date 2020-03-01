@@ -4,6 +4,10 @@ import { Animated } from 'react-animated-css';
 import Slider from 'react-slick';
 import Form from 'react-bootstrap/Form';
 
+var temp1;
+var numberStocks;
+var stockName;
+
 class Instructions extends Component {
 
     constructor(props) {
@@ -17,6 +21,7 @@ class Instructions extends Component {
             choice5: 'Buy/Sell',
         }
     }
+
 
     getChoiceOne(e) {
         this.setState({choice1: e.currentTarget.textContent});
@@ -38,6 +43,43 @@ class Instructions extends Component {
         this.setState({choice5: e.currentTarget.textContent});
     }
 
+    handleTempChange(e) {
+        temp1 = e.target.value;
+        console.log(temp1);
+    }
+
+    handleNumChange(e) {
+        numberStocks = e.target.value;
+        console.log(numberStocks);
+    }
+
+    handleStockChange(e) {
+        stockName = e.target.value;
+        console.log(stockName);
+    }
+
+    
+
+    handleLogin() {
+        console.log("EMail: " + temp1);
+        console.log("Stock Number" + numberStocks);
+        console.log("Stock Name" + stockName);
+        console.log(this.state['choice1']);
+
+        var str = `if isHotEnough Chicago ${temp1} then ${this.state['choice1']} ${numberStocks} ${stockName}`
+
+        fetch('localhost:5000/create_bot', {
+            method: 'POST',
+            body: JSON.stringify(str)
+        }).then(res => res.json)
+        .then((res)=> {
+            console.log(res);
+        });
+
+        
+
+    }
+
     render() {
 
         const settings = {
@@ -53,6 +95,7 @@ class Instructions extends Component {
         }
 
 
+
         return (
             <div>
                 <Animated animationIn="fadeInUp" animationOut="fadeOutUp" animationInDuration={1000} animationOutDuration={1000} isVisible={true}>
@@ -62,7 +105,7 @@ class Instructions extends Component {
                                 <Slider id="instruction-slider" {...settings}>
                                     <div id="slider-div">
                                         <p id="instruction-card">
-                                            If the temperature is above<div className="div-inline"><Form><input size="17" input type="text" name="name" placeholder="Degrees Fahrenheit"/></Form></div> then, 
+                                            If the temperature is above<div className="div-inline"><Form><input size="17" input type="text" name="temp1" placeholder="Degrees Fahrenheit" value={this.state.temp1} onChange={this.handleTempChange}/></Form></div> then, 
                                                 <div className="div-inline">    
                                                     <Dropdown>
                                                     <Dropdown.Toggle variant="info">
@@ -73,12 +116,12 @@ class Instructions extends Component {
                                                     <Dropdown.Item onClick={this.getChoiceOne.bind(this)}>Sell</Dropdown.Item>
                                                     </Dropdown.Menu></Dropdown>
                                                 </div>
-                                                <div className="div-inline"><Form><input size="6" type="text" name="name" placeholder="Number"/></Form></div>
-                                                <div className="div-inline"><Form><input input size="10" type="text" name="name" placeholder="Stock Name"/></Form></div>
+                                                <div className="div-inline"><Form><input size="6" type="text" name="number" placeholder="Number" value={this.state.number} onChange={this.handleNumChange}/></Form></div>
+                                                <div className="div-inline"><Form><input input size="10" type="text" name="stockName" placeholder="Stock Name" value={this.state.stockName} onChange={this.handleStockChange}/></Form></div>
                                                 shares.
                                                 <br></br>
                                                 <br></br>
-                                                <Button id="submitButton">Submit</Button> 
+                                                <Button id="submitButton" onClick={this.handleLogin}>Submit</Button> 
                                         </p> 
                                     </div>
                                     <div id="slider-div">
