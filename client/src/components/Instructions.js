@@ -3,9 +3,40 @@ import { Dropdown, Container, Row, Col, Button, FormGroup } from 'react-bootstra
 import { Animated } from 'react-animated-css';
 import Slider from 'react-slick';
 import Form from 'react-bootstrap/Form';
-import Select from 'react-select';
 
 class Instructions extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            choice1: 'Buy/Sell',
+            choice2: 'Buy/Sell',
+            choice3: 'Buy/Sell',
+            choice4: 'Buy/Sell',
+            choice5: 'Buy/Sell',
+        }
+    }
+
+    getChoiceOne(e) {
+        this.setState({choice1: e.currentTarget.textContent});
+    }
+
+    getChoiceTwo(e) {
+        this.setState({choice2: e.currentTarget.textContent});
+    }
+
+    getChoiceThree(e) {
+        this.setState({choice3: e.currentTarget.textContent});
+    }
+
+    getChoiceFour(e) {
+        this.setState({choice4: e.currentTarget.textContent});
+    }
+
+    getChoiceFive(e) {
+        this.setState({choice5: e.currentTarget.textContent});
+    }
 
     render() {
 
@@ -35,11 +66,11 @@ class Instructions extends Component {
                                                 <div className="div-inline">    
                                                     <Dropdown>
                                                     <Dropdown.Toggle variant="info">
-                                                        Buy/Sell
+                                                        {this.state.choice1}
                                                     </Dropdown.Toggle>
                                                     <Dropdown.Menu>
-                                                    <Dropdown.Item>Buy</Dropdown.Item>
-                                                    <Dropdown.Item>Sell</Dropdown.Item>
+                                                    <Dropdown.Item onClick={this.getChoiceOne.bind(this)}>Buy</Dropdown.Item>
+                                                    <Dropdown.Item onClick={this.getChoiceOne.bind(this)}>Sell</Dropdown.Item>
                                                     </Dropdown.Menu></Dropdown>
                                                 </div>
                                                 <div className="div-inline"><Form><input size="6" type="text" name="name" placeholder="Number"/></Form></div>
@@ -56,11 +87,11 @@ class Instructions extends Component {
                                             <div className="div-inline">    
                                                 <Dropdown>
                                                 <Dropdown.Toggle variant="info">
-                                                    Buy/Sell
+                                                    {this.state.choice2}
                                                 </Dropdown.Toggle>
                                                 <Dropdown.Menu>
-                                                    <Dropdown.Item>Buy</Dropdown.Item>
-                                                    <Dropdown.Item>Sell</Dropdown.Item>
+                                                    <Dropdown.Item onClick={this.getChoiceTwo.bind(this)}>Buy</Dropdown.Item>
+                                                    <Dropdown.Item onClick={this.getChoiceTwo.bind(this)}>Sell</Dropdown.Item>
                                                 </Dropdown.Menu></Dropdown>
                                             </div>
                                                 <div className="div-inline"><Form><input input size="6" type="text" name="name" placeholder="Number"/></Form></div>
@@ -78,11 +109,11 @@ class Instructions extends Component {
                                                 <div className="div-inline">    
                                                     <Dropdown>
                                                     <Dropdown.Toggle variant="info">
-                                                        Buy/Sell
+                                                        {this.state.choice3}
                                                     </Dropdown.Toggle>
                                                     <Dropdown.Menu>
-                                                        <Dropdown.Item>Buy</Dropdown.Item>
-                                                        <Dropdown.Item>Sell</Dropdown.Item>
+                                                        <Dropdown.Item onClick={this.getChoiceThree.bind(this)}>Buy</Dropdown.Item>
+                                                        <Dropdown.Item onClick={this.getChoiceThree.bind(this)}>Sell</Dropdown.Item>
                                                     </Dropdown.Menu></Dropdown>
                                                 </div>
                                                 <div className="div-inline"><Form><input input size="7"type="text" name="name" placeholder="Number"/></Form></div>
@@ -100,11 +131,11 @@ class Instructions extends Component {
                                                 <div className="div-inline">    
                                                     <Dropdown>
                                                     <Dropdown.Toggle variant="info">
-                                                        Buy/Sell
+                                                        {this.state.choice4}
                                                     </Dropdown.Toggle>
                                                     <Dropdown.Menu>
-                                                        <Dropdown.Item>Buy</Dropdown.Item>
-                                                        <Dropdown.Item>Sell</Dropdown.Item>
+                                                        <Dropdown.Item onClick={this.getChoiceFour.bind(this)}>Buy</Dropdown.Item>
+                                                        <Dropdown.Item onClick={this.getChoiceFour.bind(this)}>Sell</Dropdown.Item>
                                                     </Dropdown.Menu></Dropdown>
                                                 </div>
                                                 <div className="div-inline"><Form><input input size="7" type="text" name="name" placeholder="Number"/></Form></div>
@@ -121,11 +152,11 @@ class Instructions extends Component {
                                             <div className="div-inline">    
                                                     <Dropdown>
                                                     <Dropdown.Toggle variant="info">
-                                                        Buy/Sell
+                                                        {this.state.choice5}
                                                     </Dropdown.Toggle>
                                                     <Dropdown.Menu>
-                                                        <Dropdown.Item>Buy</Dropdown.Item>
-                                                        <Dropdown.Item>Sell</Dropdown.Item>
+                                                        <Dropdown.Item onClick={this.getChoiceFive.bind(this)}>Buy</Dropdown.Item>
+                                                        <Dropdown.Item onClick={this.getChoiceFive.bind(this)}>Sell</Dropdown.Item>
                                                     </Dropdown.Menu></Dropdown>
                                             </div>
                                             <div className="div-inline"><Form><input input size="7" type="text" name="name" placeholder="Number"/></Form></div> 
