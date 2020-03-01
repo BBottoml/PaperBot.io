@@ -118,7 +118,7 @@ def create_app(test_config=None):
     def alpacaAuth():
         callback_url = _domain + "/alpacaCallback"
         print(callback_url)
-        oauth_url = "https://app.alpaca.markets/oauth/authorize?response_type=code&client_id=" + _client_id + "&redirect_uri=" + callback_url + "&state=RUlMvZWMRU1fZvQKk3jOI1XIuGHoD15e&scope=account:write%20trading%20data"
+        oauth_url = r"https://app.alpaca.markets/oauth/authorize?response_type=code&client_id=" + _client_id + r"&redirect_uri=" + callback_url + r"&state=RUlMvZWMRU1fZvQKk3jOI1XIuGHoD15e&scope=account:write%20trading%20data"
         
         return redirect(oauth_url, 302)
 
@@ -145,7 +145,7 @@ def create_app(test_config=None):
         print(tempData)
         return redirect(url_for('purchase'))
         
-    @app.route('/purchase', methods=["POST"])
+    @app.route('/api/purchase', methods=['POST'])
     def purchase():
         global access_token
         if (request.method=="POST"):
@@ -211,4 +211,21 @@ def create_app(test_config=None):
         somebool = trend in tweet_data.lower()
         return somebool
     
+    def currentTemp(somecity):
+        url = "https://community-open-weather-map.p.rapidapi.com/weather"
+
+        querystring = {"callback":"test","id":"2172797","units":"%22metric%22 or %22imperial%22","mode":"xml%2C html","q":somecity}
+
+        headers = {
+            'x-rapidapi-host': "community-open-weather-map.p.rapidapi.com",
+            'x-rapidapi-key': "3fa8a208f3mshac38fad42378d21p160849jsn2a5f80aa3204"
+        }
+
+        response = requests.request("GET", url, headers=headers, params=querystring)
+
+        temp = float(response.text.split('"main":{"temp":')[1].split(",")[0])
+        temp = 1.8 * (temp - 273) + 32
+
+        return temp 
+
     return app
