@@ -37,7 +37,7 @@ def create_app(test_config=None):
     def hello():
         return 'Hello, World!'
 
-    @app.route('/create_bot', methods=["POST"])
+    @app.route('/create_bot', methods=['POST'])
     def create_bot():
         if (request.method=="POST"):
             form = request.form
@@ -79,31 +79,38 @@ def create_app(test_config=None):
         access_token=tempData['access_token']
         
         print(tempData)
+        print(access_token)
         return redirect(url_for('purchase'))
 
-    @app.route('/api/purchase')
+    @app.route('/api/purchase', methods=['POST'])
     def purchase():
         global access_token
-        authorization_header = {"Authorization":"Bearer {}".format(access_token), "Content-Type":"application/json"}
-        authorization_header = json.dumps(authorization_header)
-        authorization_header = json.loads(authorization_header) 
-        print(authorization_header)
-        buy_url = 'https://paper-api.alpaca.markets/v2/orders'
+        if (request.method=="POST"):
+            buy_url = 'https://paper-api.alpaca.markets/v2/orders'
 
-        params_json='{"symbol": "GOOGL","qty": 1,"side": "buy","type": "market","time_in_force": "day"}'
-        
-        res = requests.post(buy_url, data=str(params_json), headers=authorization_header)
+            # auth header setup
+            authorization_header = {"Authorization":"Bearer {}".format(access_token), "Content-Type":"application/json"}
+            authorization_header = json.dumps(authorization_header)
+            authorization_header = json.loads(authorization_header) 
 
+            # request
+            res = requests.post(buy_url, data=request.data, headers=authorization_header)
 
-        return res.json()
+            return res.json()
 
-    '''''
-    This route serves as an interface between the frontend and Alpaca api
-    Purchases a specified quantity of shares for specified stock
-    '''''
-    @app.route('/api/buy')
-    def buy():
-        return "bought"
+    @app.route('/api/sell', methods=['POST'])
+    def sell():
+        global access_token
+        if (request.method=="POST"):
+            sell_url = 'https://paper-api.alpaca.markets/v2/orders'
 
-    return app
+            authorization_header = {"Authorization":"Bearer {}".format(access_token), "Content-Type":"application/json"}
+            authorization_header = json.dumps(authorization_header)
+            authorization_header = json.loads(authorization_header) 
+
+            # request
+            res = requests.post(sell_url, data=request.data, headers=authorization_header)
+
+            return res.json()
+
 
