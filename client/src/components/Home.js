@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Container, Row, Col, Tabs, Tab, Table, Alert, Button } from 'react-bootstrap';
 
 import Graph from './Graph.js';
-import StockTable from './StockTable.js'
+import StockTable from './StockTable.js';
+import Instructions from './Instructions.js';
 
 class Home extends React.Component {
 
@@ -34,7 +35,7 @@ class Home extends React.Component {
                                     <Graph />
                                 </Col>
 
-                                <Col style={{paddingTop: '30px'}}>
+                                <Col style={{paddingTop: '65px'}}>
                                     <StockTable />
                                 </Col>
                             </Row>
@@ -88,7 +89,7 @@ class Home extends React.Component {
                     </div>
                     ) : (
                     <div>
-
+                        <Instructions />
                     </div>
                     )
                 }
