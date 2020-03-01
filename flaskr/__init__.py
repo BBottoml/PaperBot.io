@@ -47,8 +47,8 @@ def create_app(test_config=None):
             db.session.add(user)
             db.session.commit()
             return redirect(url_for('/'))
-        return 'Hello World'
-        
+        return redirect(url_for('/'))
+    @app.route('/check_price')    
     @app.route('/alpacaAuth')
     def alpacaAuth():
         callback_url = _domain + "/alpacaCallback"
