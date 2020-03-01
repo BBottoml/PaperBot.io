@@ -59,13 +59,13 @@ def create_app(test_config=None):
             print(_bots)
         return redirect(url_for('index')) 
 
-    @app.route('process_algorithm')
+    @app.route('/process_algorithm')
     def process_algorithm():
         for name in _bots.keys():
             instruction_words_length = len(_bots[name])
             truth_value=True
             i=0
-            while (i<instruction_words_length):
+            while i<instruction_words_length:
                 word=_bots[name][i]
                 i+=1
                 if (word=="if"):
@@ -88,7 +88,7 @@ def create_app(test_config=None):
                             value=_bots[name][i]
                             i+=1
                             truth_value = truth_value and process_condition(condition,value)
-                if (word=="then"):
+                if word=="then":
                     action=_bots[name][i]
                     i+=1
                     num_shares=_bots[name][i]
@@ -102,10 +102,9 @@ def create_app(test_config=None):
         if condition=="isTrending":
             return isTrending(value)
         if condition=="isLowEnough":
-            return isLowEnough(stock_name,value)
+            return not isLowEnough(stock_name,value)
         if condition=="isHighEnough":
             return isHighEnough(stock_name,value)
-        } 
         if condition=="isColdEnough":
             return isColdEnough(city_name, value)
         if condition=="isHotEnough":
@@ -125,6 +124,7 @@ def create_app(test_config=None):
         if (action=="buy"):
             params["side"]="buy"
             requests.post('/purchase',data=params)
+            
     @app.route('/alpacaAuth')
     def alpacaAuth():
         callback_url = _domain + "/alpacaCallback"
@@ -238,5 +238,21 @@ def create_app(test_config=None):
         temp = 1.8 * (temp - 273) + 32
 
         return temp < sometemp
+
+    def isHighEnough(ticker, someprice):
+        url = "https://finnhub-realtime-stock-price.p.rapidapi.com/quote"
+
+        querystring = {"symbol":"AAPL"}
+
+        headers = {
+            'x-rapidapi-host': "finnhub-realtime-stock-price.p.rapidapi.com",
+            'x-rapidapi-key': "3fa8a208f3mshac38fad42378d21p160849jsn2a5f80aa3204"
+            }
+
+        response = requests.request("GET", url, headers=headers, params=querystring)
+
+        price = float(response.text.split(":")[1].split(",")[0])
+
+        return price > someprice
 
     return app
