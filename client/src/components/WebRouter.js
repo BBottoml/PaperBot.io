@@ -8,7 +8,7 @@ import Header from'./Header.js';
 function WebRouter() {
     return (
         <div>
-            <Header />
+            <Home />
         </div>
     )
 }
