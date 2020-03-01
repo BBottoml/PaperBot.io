@@ -2,11 +2,12 @@ import os
 from flask import Flask
 import os
 from flask_sqlalchemy import SQLAlchemy
-from flask import redirect, request
+from flask import redirect, request, url_for
 import requests 
+import json
 
-_key = "PK0HQWF2V79VI2LPBAWA"
-_secret = "rIMHkEzJoEUcsgv1mDZGtpzJSKkuT9tMW98sW8CG"
+_client_id = "3c49486c11e7447df67dbbc26fb1168d"
+_client_secret = "076f599533ee5116190e7246b3c1a913c8e2fd31" 
 _domain = "http://localhost:5000"
 
 def create_app(test_config=None):
@@ -53,7 +54,7 @@ def create_app(test_config=None):
     def alpacaAuth():
         callback_url = _domain + "/alpacaCallback"
         print(callback_url)
-        oauth_url = "https://app.alpaca.markets/oauth/authorize?response_type=code&client_id=" + _client_id + "&redirect_uri=" + callback_url + "&state=RUlMvZWMRU1fZvQKk3jOI1XIuGHoD15e&scope=account:write%20trading%20data"
+        oauth_url = r"https://app.alpaca.markets/oauth/authorize?response_type=code&client_id=" + _client_id + r"&redirect_uri=" + callback_url + r"&state=RUlMvZWMRU1fZvQKk3jOI1XIuGHoD15e&scope=account:write%20trading%20data"
         
         return redirect(oauth_url, 302)
 
@@ -79,23 +80,19 @@ def create_app(test_config=None):
         
         print(tempData)
         return redirect(url_for('purchase'))
-        
-    @app.route('/purchase')
+
+    @app.route('/api/purchase')
     def purchase():
         global access_token
-        authorization_header = {'Authorization':'Bearer {}'.format(access_token),"Content-Type":"application/json"}
+        authorization_header = {"Authorization":"Bearer {}".format(access_token), "Content-Type":"application/json"}
+        authorization_header = json.dumps(authorization_header)
+        authorization_header = json.loads(authorization_header) 
         print(authorization_header)
-        print(access_token)
         buy_url = 'https://paper-api.alpaca.markets/v2/orders'
-        params_json = {
-            "side": "buy",
-            "symbol": "IIPR",
-            "type": "market",
-            "qty": "100",
-            "time_in_force": "gtc"
-        }
+
+        params_json='{"symbol": "GOOGL","qty": 1,"side": "buy","type": "market","time_in_force": "day"}'
         
-        res = requests.post(buy_url, params=params_json, headers=authorization_header)
+        res = requests.post(buy_url, data=str(params_json), headers=authorization_header)
 
 
         return res.json()
