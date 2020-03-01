@@ -116,7 +116,7 @@ def create_app(test_config=None):
         print(tempData)
         return redirect(url_for('purchase'))
         
-    @app.route('/purchase', methods=["POST"])
+    @app.route('/api/purchase', methods=['POST'])
     def purchase():
         global access_token
         if (request.method=="POST"):
