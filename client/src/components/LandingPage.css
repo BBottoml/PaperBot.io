@@ -17,7 +17,7 @@
     max-width: 25rem;  
 }
 
-h1 {
+.header1 {
     padding-top: 5rem;
     font-size: 8em;
     font-weight: 700;
@@ -68,7 +68,7 @@ h2 span {
     font-weight: bold;
 }
 
-p {
+.pa {
     padding-left: 9rem;
     font-family: source sans pro,sans-serif!important;
     font-size: 16px!important;
