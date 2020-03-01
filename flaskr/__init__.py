@@ -251,6 +251,8 @@ def create_app(test_config=None):
         tweet_data = str(search_resp.json())
 
         somebool = trend in tweet_data.lower()
+        print("IN ISTRENDING")
+        print(somebool)
         return somebool
     
     def isColdEnough(somecity, sometemp):

@@ -8,6 +8,7 @@ var temp1;
 var numberStocks;
 var stockName;
 var price;
+var trend; 
 
 class Instructions extends Component {
 
@@ -64,6 +65,11 @@ class Instructions extends Component {
         console.log(price);
     }
 
+    handleTrendChange(e) {
+        trend = e.target.value;
+        console.log(trend);
+    }
+
     
 
     handleLogin1() {
@@ -117,7 +123,7 @@ class Instructions extends Component {
         console.log("Stock Name" + stockName);
         console.log("Price"+ price);
 
-        let str = `if isHighEnough ${stockName} ${price} then buy ${numberStocks} ${stockName}`
+        let str = `if isLowEnough ${stockName} ${price} then buy ${numberStocks} ${stockName}`
         let params = {"bot_algorithm": str}
 
         fetch('http://localhost:5000/create_bot?'+'bot_algorithm='+str, {
@@ -140,7 +146,30 @@ class Instructions extends Component {
         console.log("Stock Name" + stockName);
         //console.log(this.state.choice1);
 
-        let str = `if isLowEnough ${stockName} ${price} then buy ${numberStocks} ${stockName}`
+        let str = `if isHighEnough ${stockName} ${price} then buy ${numberStocks} ${stockName}`
+        let params = {"bot_algorithm": str}
+
+        fetch('http://localhost:5000/create_bot?'+'bot_algorithm='+str, {
+            method: 'POST',
+            body: JSON.stringify(params),
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': "*",
+                'Access-Control-Allow-Headers': "*"
+            }
+        }).then(res => res.json)
+        .then((res)=> {
+            console.log(res);
+        });
+    }
+
+    handleLogin5() {
+        console.log("Stock Number" + numberStocks);
+        console.log("Stock Name" + stockName);
+        console.log("trend" + trend)
+        //console.log(this.state.choice1);
+
+        let str = `if isTrending ${trend} then buy ${numberStocks} ${stockName}`
         let params = {"bot_algorithm": str}
 
         fetch('http://localhost:5000/create_bot?'+'bot_algorithm='+str, {
@@ -236,7 +265,7 @@ class Instructions extends Component {
                                                         <Dropdown.Item onClick={this.getChoiceThree.bind(this)}>Sell</Dropdown.Item>
                                                     </Dropdown.Menu></Dropdown>
                                                 </div>
-                                                <div className="div-inline"><Form><input input size="7"type="text" name="name" placeholder="Number" value={this.state.numberStocks} onChange={this.handleNumChange}/></Form></div>
+                                                <div className="div-inline"><Form><input input size="7"type="text" name="name" placeholder="Number" value={this.state.number} onChange={this.handleNumChange}/></Form></div>
                                                 <div className="div-inline"><Form><input input size="10"type="text" name="name" placeholder="Stock Name" value={this.state.stockName} onChange={this.handleStockChange}/></Form></div>
                                                 shares.
                                                 <br></br>
@@ -258,17 +287,17 @@ class Instructions extends Component {
                                                         <Dropdown.Item onClick={this.getChoiceFour.bind(this)}>Sell</Dropdown.Item>
                                                     </Dropdown.Menu></Dropdown>
                                                 </div>
-                                                <div className="div-inline"><Form><input input size="7" type="text" name="name" placeholder="Number" value={this.state.numberStocks} onChange={this.handleNumChange}/></Form></div>
+                                                <div className="div-inline"><Form><input input size="7" type="text" name="name" placeholder="Number" value={this.state.number} onChange={this.handleNumChange}/></Form></div>
                                                 <div className="div-inline"><Form><input input size="10" type="text" name="name" placeholder="Stock Name" value={this.state.stockName} onChange={this.handleStockChange}/></Form></div>
                                                 shares.
                                                 <br></br>
                                                 <br></br>
-                                                <Button id="submitButton" onClick={this.handleLogin3}>Submit</Button> 
+                                                <Button id="submitButton" onClick={this.handleLogin4}>Submit</Button> 
                                         </p>
                                     </div>
                                     <div id="slider-div">
                                         <p id="instruction-card">
-                                            If <div className="div-inline"><Form><input input size="10" type="text" name="name" placeholder="Word"/></Form></div> is trending on Twitter, 
+                                            If <div className="div-inline"><Form><input input size="10" type="text" name="name" placeholder="Word" value={this.state.trend} onChange={this.handleTrendChange}/></Form></div> is trending on Twitter, 
                                             <div className="div-inline">    
                                                     <Dropdown>
                                                     <Dropdown.Toggle variant="info">
@@ -279,12 +308,12 @@ class Instructions extends Component {
                                                         <Dropdown.Item onClick={this.getChoiceFive.bind(this)}>Sell</Dropdown.Item>
                                                     </Dropdown.Menu></Dropdown>
                                             </div>
-                                            <div className="div-inline"><Form><input input size="7" type="text" name="name" placeholder="Number"/></Form></div> 
-                                            <div className="div-inline"><Form><input input size="10" type="text" name="name" placeholder="Stock Name"/></Form></div>
+                                            <div className="div-inline"><Form><input input size="7" type="text" name="name" placeholder="Number" value={this.state.number} onChange={this.handleNumChange}/></Form></div> 
+                                            <div className="div-inline"><Form><input input size="10" type="text" name="name" placeholder="Stock Name" value={this.state.stockName} onChange={this.handleStockChange}/></Form></div>
                                             shares.
                                             <br></br>
                                             <br></br>
-                                            <Button id="submitButton" onClick={this.handleLogin4}>Submit</Button> 
+                                            <Button id="submitButton" onClick={this.handleLogin5}>Submit</Button> 
                                         </p>
                                     </div>
                                 </Slider>
