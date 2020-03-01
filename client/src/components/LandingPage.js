@@ -1,5 +1,5 @@
 import React from 'react';
-import './Home.css'
+import './LandingPage.css'
 import Card from 'react-bootstrap/Card'
 import { Form, Button } from 'react-bootstrap';
 import Col from 'react-bootstrap/Col'
@@ -19,13 +19,13 @@ class Home extends React.Component {
         return (
             <div>
             <div className="bg">
-                <h1>PaperBot.io</h1>
+                <div class="header1">PaperBot.io</div>
             </div>
             <div className="description">
                 <Row>
                 <Col>
                     <h2><span>Simple</span> way to create an <br/> educational trading bot.</h2>
-                    <p>Automate daring new strategies risk-free by creating your own<br/> trading bot. Deploy and test your bot, so you can keep tweaking<br/> your bot's rules until it is effective.</p>
+                    <div class ="pa">Automate daring new strategies risk-free by creating your own<br/> trading bot. Deploy and test your bot, so you can keep tweaking<br/> your bot's rules until it is effective.</div>
                 </Col>
                 <Col>
                     <div className="icon">
