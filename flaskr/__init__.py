@@ -1,14 +1,16 @@
 import os
-from flask import Flask
+from flask import Flask,redirect,request, url_for
 import os
 from flask_sqlalchemy import SQLAlchemy
-from flask import redirect, request
 import requests 
+import json
+import base64
 
-_key = "PK0HQWF2V79VI2LPBAWA"
-_secret = "rIMHkEzJoEUcsgv1mDZGtpzJSKkuT9tMW98sW8CG"
+_client_id = "3c49486c11e7447df67dbbc26fb1168d"
+_client_secret = "076f599533ee5116190e7246b3c1a913c8e2fd31" 
 _domain = "http://localhost:5000"
-
+_bots = dict()
+access_token = ""
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
@@ -33,27 +35,61 @@ def create_app(test_config=None):
 
     # a simple page that says hello
     @app.route('/')
-    def hello():
+    def index():
         return 'Hello, World!'
 
     @app.route('/create_bot', methods=["POST"])
+    @app.route('/update_bot', methods=["POST"])
     def create_bot():
         if (request.method=="POST"):
-            form = request.form
+            form = request.values
             name = form['bot_name']
             algorithm = form['bot_algorithm']
-            bot = Bot(name,algorithm,Log())
-            user = User(form['user_name'],bot)
-            db.session.add(user)
-            db.session.commit()
-            return redirect(url_for('/'))
-        return 'Hello World'
-        
+            _bots[name]=algorithm.split()
+            print(_bots)
+        return redirect(url_for('index')) 
+
+    @app.route('/delete_bot', methods=["POST"])
+    def delete_bot():
+        if (request.method=="POST"):
+            form = request.values
+            name = form['bot_name']
+            if name in _bots:
+                _bots.pop(name,None)
+            print(_bots)
+        return redirect(url_for('index')) 
+
+    @app.route('process_algorithm')
+    def process_algorithm():
+        for name in _bots.keys():
+            instruction_words_length = len(_bots[name])
+            truth_value=True
+            i=0
+            while (i<instruction_words_length):
+                word=_bots[name][i]
+                i+=1
+                if (word=="if"):
+                    condition=_bots[name][i]
+                    i+=1
+                    value=_bots[name][i]
+                    i+=1
+                    truth_value = truth_value and process_condition(condition,value)
+                if (word=="then"):
+                    action=_bots[name][i]
+                    i+=1
+                    num_shares=_bots[name][i]
+                    i+=1
+                    stock_name=_bots[name][i]
+                    i+=1
+                    if (truth_value):
+                        execute_order(action,num_shares,stock_name)
+            
+
     @app.route('/alpacaAuth')
     def alpacaAuth():
         callback_url = _domain + "/alpacaCallback"
         print(callback_url)
-        oauth_url = "https://app.alpaca.markets/oauth/authorize?response_type=code&client_id=" + _client_id + "&redirect_uri=" + callback_url + "&state=RUlMvZWMRU1fZvQKk3jOI1XIuGHoD15e&scope=account:write%20trading%20data"
+        oauth_url = r"https://app.alpaca.markets/oauth/authorize?response_type=code&client_id=" + _client_id + r"&redirect_uri=" + callback_url + r"&state=RUlMvZWMRU1fZvQKk3jOI1XIuGHoD15e&scope=account:write%20trading%20data"
         
         return redirect(oauth_url, 302)
 
@@ -80,33 +116,70 @@ def create_app(test_config=None):
         print(tempData)
         return redirect(url_for('purchase'))
         
-    @app.route('/purchase')
+    @app.route('/api/purchase', methods=['POST'])
     def purchase():
         global access_token
-        authorization_header = {'Authorization':'Bearer {}'.format(access_token),"Content-Type":"application/json"}
-        print(authorization_header)
-        print(access_token)
-        buy_url = 'https://paper-api.alpaca.markets/v2/orders'
-        params_json = {
-            "side": "buy",
-            "symbol": "IIPR",
-            "type": "market",
-            "qty": "100",
-            "time_in_force": "gtc"
+        if (request.method=="POST"):
+            buy_url = 'https://paper-api.alpaca.markets/v2/orders'
+
+            # auth header setup
+            authorization_header = {"Authorization":"Bearer {}".format(access_token), "Content-Type":"application/json"}
+            authorization_header = json.dumps(authorization_header)
+            authorization_header = json.loads(authorization_header) 
+
+            # request
+            res = requests.post(buy_url, data=request.data, headers=authorization_header)
+
+            return res.json()
+
+    @app.route('/api/sell', methods=['POST'])
+    def sell():
+        global access_token
+        if (request.method=="POST"):
+            sell_url = 'https://paper-api.alpaca.markets/v2/orders'
+
+            authorization_header = {"Authorization":"Bearer {}".format(access_token), "Content-Type":"application/json"}
+            authorization_header = json.dumps(authorization_header)
+            authorization_header = json.loads(authorization_header) 
+            
+            res = requests.post(sell_url, data=request.data, headers=authorization_header)
+
+            return res.json()
+    
+    def isTrending(trend):
+        client_key = 'uFTmFW66AAMEUwx3rZlZDMSCf'
+        client_secret = 'LtlxIoQpBvHcqjpSMIA9Gs2E9wCJbr7xkx9EpSdBYoNedaZUgh'
+
+        key_secret = '{}:{}'.format(client_key, client_secret).encode('ascii')
+        b64_encoded_key = base64.b64encode(key_secret)
+        b64_encoded_key = b64_encoded_key.decode('ascii')
+
+        base_url = 'https://api.twitter.com/'
+        auth_url = '{}oauth2/token'.format(base_url)
+
+        auth_headers = {
+            'Authorization': 'Basic {}'.format(b64_encoded_key),
+            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
         }
-        
-        res = requests.post(buy_url, params=params_json, headers=authorization_header)
+        auth_data = {
+            'grant_type': 'client_credentials'
+        }
 
+        auth_resp = requests.post(auth_url, headers=auth_headers, data=auth_data)
+        access_token = auth_resp.json()['access_token']
 
-        return res.json()
+        search_headers = {
+            'Authorization': 'Bearer {}'.format(access_token)    
+        }
+        search_params = {
+            'id': 1,
+        }
 
-    '''''
-    This route serves as an interface between the frontend and Alpaca api
-    Purchases a specified quantity of shares for specified stock
-    '''''
-    @app.route('/api/buy')
-    def buy():
-        return "bought"
+        search_url = '{}1.1/trends/place.json'.format(base_url)
+        search_resp = requests.get(search_url, headers=search_headers, params=search_params)
+        tweet_data = str(search_resp.json())
 
+        somebool = trend in tweet_data.lower()
+        return somebool
+    
     return app
-
