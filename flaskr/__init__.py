@@ -181,7 +181,7 @@ def create_app(test_config=None):
     @app.route('/api/sell', methods=['POST'])
     def sell():
         global access_token
-        if (request.method=="POST"):
+        if request.method=="POST":
             sell_url = 'https://paper-api.alpaca.markets/v2/orders'
 
             authorization_header = {"Authorization":"Bearer {}".format(access_token), "Content-Type":"application/json"}
@@ -190,6 +190,18 @@ def create_app(test_config=None):
             res = requests.post(sell_url, data=request.data, headers=authorization_header)
 
             return res.json()
+
+    @app.route('/api/numbots', methods=['GET'])
+    def getNumBots():
+        global _bots
+        if request.method=="GET":
+            return len(_bots)
+    
+    @app.route('/api/getbot', methods=['GET'])
+    def getBot():
+        global _bots
+        if request.method=='GET':
+            return _bots[request.values["num"]]
     
     def isTrending(trend):
         trend = trend.lower()
