@@ -122,6 +122,7 @@ def create_app(test_config=None):
         return False
 
     def execute_order(action,num_shares,stock_name):
+        print("access token", access_token)
         params={
             "side":"sell",
             "symbol":stock_name,

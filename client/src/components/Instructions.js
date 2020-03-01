@@ -7,6 +7,7 @@ import Form from 'react-bootstrap/Form';
 var temp1;
 var numberStocks;
 var stockName;
+var price;
 
 class Instructions extends Component {
 
@@ -58,9 +59,14 @@ class Instructions extends Component {
         console.log(stockName);
     }
 
+    handlePriceChange(e) {
+        price = e.target.value;
+        console.log(price);
+    }
+
     
 
-    handleLogin() {
+    handleLogin1() {
         console.log("EMail: " + temp1);
         console.log("Stock Number" + numberStocks);
         console.log("Stock Name" + stockName);
@@ -71,7 +77,73 @@ class Instructions extends Component {
 
         fetch('http://localhost:5000/create_bot?'+'bot_algorithm='+str, {
             method: 'POST',
-            //body: JSON.stringify(params),
+            body: JSON.stringify(params),
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': "*",
+                'Access-Control-Allow-Headers': "*"
+            }
+        }).then(res => res.json)
+        .then((res)=> {
+            console.log(res);
+        });
+    }
+
+    handleLogin2() {
+        console.log("EMail: " + temp1);
+        console.log("Stock Number" + numberStocks);
+        console.log("Stock Name" + stockName);
+        //console.log(this.state.choice1);
+
+        let str = `if isColdEnough Chicago ${temp1} then buy ${numberStocks} ${stockName}`
+        let params = {"bot_algorithm": str}
+
+        fetch('http://localhost:5000/create_bot?'+'bot_algorithm='+str, {
+            method: 'POST',
+            body: JSON.stringify(params),
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': "*",
+                'Access-Control-Allow-Headers': "*"
+            }
+        }).then(res => res.json)
+        .then((res)=> {
+            console.log(res);
+        });
+    }
+
+    handleLogin3() {
+        //console.log(this.state.choice1);
+
+        let str = `if isHighEnough ${stockName} ${price} then buy ${numberStocks} ${stockName}`
+        let params = {"bot_algorithm": str}
+
+        fetch('http://localhost:5000/create_bot?'+'bot_algorithm='+str, {
+            method: 'POST',
+            body: JSON.stringify(params),
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': "*",
+                'Access-Control-Allow-Headers': "*"
+            }
+        }).then(res => res.json)
+        .then((res)=> {
+            console.log(res);
+        });
+    }
+
+
+    handleLogin4() {
+        console.log("Stock Number" + numberStocks);
+        console.log("Stock Name" + stockName);
+        //console.log(this.state.choice1);
+
+        let str = `if isLowEnough ${stockName} ${price} then buy ${numberStocks} ${stockName}`
+        let params = {"bot_algorithm": str}
+
+        fetch('http://localhost:5000/create_bot?'+'bot_algorithm='+str, {
+            method: 'POST',
+            body: JSON.stringify(params),
             headers: {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': "*",
@@ -124,12 +196,12 @@ class Instructions extends Component {
                                                 shares.
                                                 <br></br>
                                                 <br></br>
-                                                <Button id="submitButton" onClick={this.handleLogin}>Submit</Button> 
+                                                <Button id="submitButton" onClick={this.handleLogin1}>Submit</Button> 
                                         </p> 
                                     </div>
                                     <div id="slider-div">
                                         <p id="instruction-card">
-                                            If the temperature is below<div className="div-inline"><Form><input input size="17" type="text" name="name" placeholder="Degrees Fahrenheit"/></Form></div> then, 
+                                            If the temperature is below<div className="div-inline"><Form><input input size="17" type="text" name="name" placeholder="Degrees Fahrenheit" value={this.state.temp1} onChange={this.handleTempChange}/></Form></div> then, 
                                             <div className="div-inline">    
                                                 <Dropdown>
                                                 <Dropdown.Toggle variant="info">
@@ -140,18 +212,18 @@ class Instructions extends Component {
                                                     <Dropdown.Item onClick={this.getChoiceTwo.bind(this)}>Sell</Dropdown.Item>
                                                 </Dropdown.Menu></Dropdown>
                                             </div>
-                                                <div className="div-inline"><Form><input input size="6" type="text" name="name" placeholder="Number"/></Form></div>
-                                                <div className="div-inline"><Form><input input size="10" type="text" name="name" placeholder="Stock Name"/></Form></div>
+                                                <div className="div-inline"><Form><input input size="6" type="text" name="name" placeholder="Number" value={this.state.number} onChange={this.handleNumChange}/></Form></div>
+                                                <div className="div-inline"><Form><input input size="10" type="text" name="name" placeholder="Stock Name" value={this.state.stockName} onChange={this.handleStockChange}/></Form></div>
                                                 shares.
                                                 <br></br>
                                                 <br></br>
-                                                <Button id="submitButton">Submit</Button> 
+                                                <Button id="submitButton" onClick={this.handleLogin2}>Submit</Button> 
                                         </p>
                                     </div>
                                     <div id="slider-div">
                                         <p id="instruction-card">
-                                            If<div className="div-inline"><Form><input input size="12"type="text" name="name" placeholder="Stock Name"/></Form></div> is lower than,
-                                                <div className="div-inline"><Form><input input size="4"type="text" name="name" placeholder="Price"/></Form></div>dollars,  
+                                            If<div className="div-inline"><Form><input input size="12"type="text" name="name" placeholder="Stock Name" value={this.state.stockName} onChange={this.handleStockChange}/></Form></div> is lower than,
+                                                <div className="div-inline"><Form><input input size="4"type="text" name="name" placeholder="Price" value={this.state.price} onChange={this.handlePriceChange}/></Form></div>dollars,  
                                                 <div className="div-inline">    
                                                     <Dropdown>
                                                     <Dropdown.Toggle variant="info">
@@ -162,18 +234,18 @@ class Instructions extends Component {
                                                         <Dropdown.Item onClick={this.getChoiceThree.bind(this)}>Sell</Dropdown.Item>
                                                     </Dropdown.Menu></Dropdown>
                                                 </div>
-                                                <div className="div-inline"><Form><input input size="7"type="text" name="name" placeholder="Number"/></Form></div>
-                                                <div className="div-inline"><Form><input input size="10"type="text" name="name" placeholder="Stock Name"/></Form></div>
+                                                <div className="div-inline"><Form><input input size="7"type="text" name="name" placeholder="Number" value={this.state.numberStocks} onChange={this.handleStockChange}/></Form></div>
+                                                <div className="div-inline"><Form><input input size="10"type="text" name="name" placeholder="Stock Name" value={this.state.stockName} onChange={this.handleStockChange}/></Form></div>
                                                 shares.
                                                 <br></br>
                                                 <br></br>
-                                                <Button id="submitButton">Submit</Button> 
+                                                <Button id="submitButton" onClick={this.handleLogin3}>Submit</Button> 
                                         </p>
                                     </div>
                                     <div id="slider-div">
                                         <p id="instruction-card">
-                                        If<div className="div-inline"><Form><input input size="12" type="text" name="name" placeholder="Stock Name"/></Form></div> is higher than,
-                                                <div className="div-inline"><Form><input input size="4" type="text" name="name" placeholder="Price"/></Form></div>dollars,  
+                                        If<div className="div-inline"><Form><input input size="12" type="text" name="name" placeholder="Stock Name" value={this.state.stockName} onChange={this.handleStockChange}/></Form></div> is higher than,
+                                                <div className="div-inline"><Form><input input size="4" type="text" name="name" placeholder="Price" value={this.state.price} onChange={this.handlePriceChange}/></Form></div>dollars,  
                                                 <div className="div-inline">    
                                                     <Dropdown>
                                                     <Dropdown.Toggle variant="info">
@@ -184,12 +256,12 @@ class Instructions extends Component {
                                                         <Dropdown.Item onClick={this.getChoiceFour.bind(this)}>Sell</Dropdown.Item>
                                                     </Dropdown.Menu></Dropdown>
                                                 </div>
-                                                <div className="div-inline"><Form><input input size="7" type="text" name="name" placeholder="Number"/></Form></div>
-                                                <div className="div-inline"><Form><input input size="10" type="text" name="name" placeholder="Stock Name"/></Form></div>
+                                                <div className="div-inline"><Form><input input size="7" type="text" name="name" placeholder="Number" value={this.state.numberStocks} onChange={this.handleStockChange}/></Form></div>
+                                                <div className="div-inline"><Form><input input size="10" type="text" name="name" placeholder="Stock Name" value={this.state.stockName} onChange={this.handleStockChange}/></Form></div>
                                                 shares.
                                                 <br></br>
                                                 <br></br>
-                                                <Button id="submitButton">Submit</Button> 
+                                                <Button id="submitButton" onClick={this.handleLogin3}>Submit</Button> 
                                         </p>
                                     </div>
                                     <div id="slider-div">
@@ -210,7 +282,7 @@ class Instructions extends Component {
                                             shares.
                                             <br></br>
                                             <br></br>
-                                            <Button id="submitButton">Submit</Button> 
+                                            <Button id="submitButton" onClick={this.handleLogin4}>Submit</Button> 
                                         </p>
                                     </div>
                                 </Slider>
