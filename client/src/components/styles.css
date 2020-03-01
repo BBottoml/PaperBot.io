@@ -85,6 +85,10 @@
     display:inline-block;
 }
 
-.submitButton {
-    
+#select {
+    width: 30px;
+}
+
+#formSize {
+    width: 50px;
 }

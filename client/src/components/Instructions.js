@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Dropdown, Container, Row, Col, Button, FormGroup } from 'react-bootstrap';
 import { Animated } from 'react-animated-css';
 import Slider from 'react-slick';
-import Form from 'react-bootstrap/Form'
+import Form from 'react-bootstrap/Form';
+import Select from 'react-select';
 
 class Instructions extends Component {
 
@@ -20,6 +21,7 @@ class Instructions extends Component {
             centerPadding: '50px'
         }
 
+
         return (
             <div>
                 <Animated animationIn="fadeInUp" animationOut="fadeOutUp" animationInDuration={1000} animationOutDuration={1000} isVisible={true}>
@@ -36,11 +38,11 @@ class Instructions extends Component {
                                                         Buy/Sell
                                                     </Dropdown.Toggle>
                                                     <Dropdown.Menu>
-                                                        <Dropdown.Item>Buy</Dropdown.Item>
-                                                        <Dropdown.Item>Sell</Dropdown.Item>
+                                                    <Dropdown.Item>Buy</Dropdown.Item>
+                                                    <Dropdown.Item>Sell</Dropdown.Item>
                                                     </Dropdown.Menu></Dropdown>
                                                 </div>
-                                                <div className="div-inline"><Form><input type="text" name="name" placeholder="number"/></Form></div>
+                                                <div className="div-inline"><Form><input size="6" type="text" name="name" placeholder="Number"/></Form></div>
                                                 <div className="div-inline"><Form><input type="text" name="name" placeholder="Stock Name"/></Form></div>
                                                 shares.
                                                 <br></br>
@@ -50,26 +52,85 @@ class Instructions extends Component {
                                     </div>
                                     <div id="slider-div">
                                         <p id="instruction-card">
-                                            Some quick example text to build on the card 
-                                            title and make up the bulk of the card's content.
+                                            If the temperature is below<div className="div-inline"><Form><input type="text" name="name" placeholder="Degrees Fahrenheit"/></Form></div> then, 
+                                            <div className="div-inline">    
+                                                <Dropdown>
+                                                <Dropdown.Toggle variant="info">
+                                                    Buy/Sell
+                                                </Dropdown.Toggle>
+                                                <Dropdown.Menu>
+                                                    <Dropdown.Item>Buy</Dropdown.Item>
+                                                    <Dropdown.Item>Sell</Dropdown.Item>
+                                                </Dropdown.Menu></Dropdown>
+                                            </div>
+                                                <div className="div-inline"><Form><input type="text" name="name" placeholder="Number"/></Form></div>
+                                                <div className="div-inline"><Form><input type="text" name="name" placeholder="Stock Name"/></Form></div>
+                                                shares.
+                                                <br></br>
+                                                <br></br>
+                                                <Button id="submitButton">Submit</Button> 
                                         </p>
                                     </div>
                                     <div id="slider-div">
                                         <p id="instruction-card">
-                                            Some quick example text to build on the card 
-                                            title and make up the bulk of the card's content.
+                                            If<div className="div-inline"><Form><input type="text" name="name" placeholder="Stock Name"/></Form></div> is lower than,
+                                                <div className="div-inline"><Form><input type="text" name="name" placeholder="Price"/></Form></div>dollars,  
+                                                <div className="div-inline">    
+                                                    <Dropdown>
+                                                    <Dropdown.Toggle variant="info">
+                                                        Buy/Sell
+                                                    </Dropdown.Toggle>
+                                                    <Dropdown.Menu>
+                                                        <Dropdown.Item>Buy</Dropdown.Item>
+                                                        <Dropdown.Item>Sell</Dropdown.Item>
+                                                    </Dropdown.Menu></Dropdown>
+                                                </div>
+                                                <div className="div-inline"><Form><input type="text" name="name" placeholder="Number"/></Form></div>
+                                                <div className="div-inline"><Form><input type="text" name="name" placeholder="Stock Name"/></Form></div>
+                                                shares.
+                                                <br></br>
+                                                <br></br>
+                                                <Button id="submitButton">Submit</Button> 
                                         </p>
                                     </div>
                                     <div id="slider-div">
                                         <p id="instruction-card">
-                                            Some quick example text to build on the card 
-                                            title and make up the bulk of the card's content.
+                                        If<div className="div-inline"><Form><input type="text" name="name" placeholder="Stock Name"/></Form></div> is higher than,
+                                                <div className="div-inline"><Form><input type="text" name="name" placeholder="Price"/></Form></div>dollars,  
+                                                <div className="div-inline">    
+                                                    <Dropdown>
+                                                    <Dropdown.Toggle variant="info">
+                                                        Buy/Sell
+                                                    </Dropdown.Toggle>
+                                                    <Dropdown.Menu>
+                                                        <Dropdown.Item>Buy</Dropdown.Item>
+                                                        <Dropdown.Item>Sell</Dropdown.Item>
+                                                    </Dropdown.Menu></Dropdown>
+                                                </div>
+                                                <div className="div-inline"><Form><input type="text" name="name" placeholder="Number"/></Form></div>
+                                                <div className="div-inline"><Form><input type="text" name="name" placeholder="Stock Name"/></Form></div>
+                                                shares.
+                                                <br></br>
+                                                <br></br>
+                                                <Button id="submitButton">Submit</Button> 
                                         </p>
                                     </div>
                                     <div id="slider-div">
                                         <p id="instruction-card">
-                                            Some quick example text to build on the card 
-                                            title and make up the bulk of the card's content.
+                                            If <div className="div-inline"><Form><input type="text" name="name" placeholder="Number"/></Form></div> is trending on Twitter, 
+                                            <div className="div-inline">    
+                                                    <Dropdown>
+                                                    <Dropdown.Toggle variant="info">
+                                                        Buy/Sell
+                                                    </Dropdown.Toggle>
+                                                    <Dropdown.Menu>
+                                                        <Dropdown.Item>Buy</Dropdown.Item>
+                                                        <Dropdown.Item>Sell</Dropdown.Item>
+                                                    </Dropdown.Menu></Dropdown>
+                                            </div>
+                                            <div className="div-inline"><Form><input type="text" name="name" placeholder="Number"/></Form></div> 
+                                            <div className="div-inline"><Form><input type="text" name="name" placeholder="Stock Name"/></Form></div>
+                                            shares.
                                         </p>
                                     </div>
                                 </Slider>
