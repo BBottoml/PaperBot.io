@@ -2,3 +2,4 @@
 reqs/
 *.pyc
 .vscode
+.vscode/
