@@ -222,7 +222,7 @@ def create_app(test_config=None):
         somebool = trend in tweet_data.lower()
         return somebool
     
-    def currentTemp(somecity):
+    def isColdEnough(somecity, sometemp):
         url = "https://community-open-weather-map.p.rapidapi.com/weather"
 
         querystring = {"callback":"test","id":"2172797","units":"%22metric%22 or %22imperial%22","mode":"xml%2C html","q":somecity}
@@ -237,6 +237,6 @@ def create_app(test_config=None):
         temp = float(response.text.split('"main":{"temp":')[1].split(",")[0])
         temp = 1.8 * (temp - 273) + 32
 
-        return temp 
+        return temp < sometemp
 
     return app
