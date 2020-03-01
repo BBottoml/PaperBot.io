@@ -1,28 +1,35 @@
-import React, { Component } from 'react';
-import Navbar from 'react-bootstrap/Navbar';
+import React from 'react';
 import Nav from 'react-bootstrap/Nav';
-import Form from 'react-bootstrap/Form';
-import FormControl from 'react-bootstrap/FormControl';
-import Button from 'react-bootstrap/Button';
+import './Header.css'
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import "animate.css/animate.min.css";
 
 
 export default class Header extends React.Component {
+    scrollDown(amountToScroll){
+        window.scrollTo(0, 860);
+    }
+
+    scrollToContact(amountToScroll) {
+        window.scrollTo(0, 1500);
+    }
+
     render() {
         return (
             <div>
-                <Navbar bg="dark" variant="dark">
-                    <Navbar.Brand href="#home">Navbar</Navbar.Brand>
-                    <Nav className="mr-auto">
-                    <Nav.Link href="#home">Home</Nav.Link>
-                    <Nav.Link href="#features">Features</Nav.Link>
-                    <Nav.Link href="#pricing">Pricing</Nav.Link>
-                    </Nav>
-                    <Form inline>
-                    <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-                    <Button variant="outline-info">Search</Button>
-                    </Form>
-                </Navbar>
-        </div>
+               <Nav className="justify-content-end" activeKey="/home">
+                    <Nav.Item>
+                        <Nav.Link onClick={this.scrollToContact}>Contact</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                    <Nav.Link onClick={this.scrollDown}>About</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                        <Nav.Link href="http://localhost:5000/alpacaAuth">Login</Nav.Link>
+                    </Nav.Item>
+                </Nav>
+            </div>
         )
     }
 }
