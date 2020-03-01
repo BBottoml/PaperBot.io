@@ -3,6 +3,8 @@ import { Dropdown, Container, Row, Col, Button, FormGroup } from 'react-bootstra
 import { Animated } from 'react-animated-css';
 import Slider from 'react-slick';
 import Form from 'react-bootstrap/Form';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
+import 'react-notifications/lib/notifications.css';
 
 var temp1;
 var numberStocks;
@@ -24,7 +26,7 @@ class Instructions extends Component {
         }
     }
     refreshPage() {
-        window.location.reload(false);
+        NotificationManager.success("Successfully created bot");
     }
 
     getChoiceOne(e) {
@@ -226,7 +228,7 @@ class Instructions extends Component {
                                                 shares.
                                                 <br></br>
                                                 <br></br>
-                                                <Button id="submitButton" onClick={this.handleLogin2}>Submit</Button> 
+                                                <Button id="submitButton" onClick={this.handleLogin2, this.refreshPage}>Submit</Button> 
                                         </p>
                                     </div>
                                     <div id="slider-div">
@@ -248,7 +250,7 @@ class Instructions extends Component {
                                                 shares.
                                                 <br></br>
                                                 <br></br>
-                                                <Button id="submitButton" onClick={this.handleLogin3}>Submit</Button> 
+                                                <Button id="submitButton" onClick={this.handleLogin3, this.refreshPage}>Submit</Button> 
                                         </p>
                                     </div>
                                     <div id="slider-div">
@@ -270,7 +272,7 @@ class Instructions extends Component {
                                                 shares.
                                                 <br></br>
                                                 <br></br>
-                                                <Button id="submitButton" onClick={this.handleLogin3}>Submit</Button> 
+                                                <Button id="submitButton" onClick={this.handleLogin3, this.refreshPage}>Submit</Button> 
                                         </p>
                                     </div>
                                     <div id="slider-div">
@@ -291,7 +293,7 @@ class Instructions extends Component {
                                             shares.
                                             <br></br>
                                             <br></br>
-                                            <Button id="submitButton" onClick={this.handleLogin4}>Submit</Button> 
+                                            <Button id="submitButton" onClick={this.handleLogin4, this.refreshPage}>Submit</Button> 
                                         </p>
                                     </div>
                                 </Slider>
@@ -333,6 +335,7 @@ class Instructions extends Component {
                         </Row>
                     </Container>
                 </Animated>
+                <NotificationContainer />
             </div>
         );
     }
