@@ -22,7 +22,9 @@ class Instructions extends Component {
             choice5: 'Buy/Sell',
         }
     }
-
+    refreshPage() {
+        window.location.reload(false);
+    }
 
     getChoiceOne(e) {
         this.setState({choice1: e.currentTarget.textContent});
@@ -67,7 +69,7 @@ class Instructions extends Component {
     
 
     handleLogin1() {
-        console.log("EMail: " + temp1);
+        console.log("Email: " + temp1);
         console.log("Stock Number" + numberStocks);
         console.log("Stock Name" + stockName);
         //console.log(this.state.choice1);
@@ -198,7 +200,7 @@ class Instructions extends Component {
                                                 shares.
                                                 <br></br>
                                                 <br></br>
-                                                <Button id="submitButton" onClick={this.handleLogin1}>Submit</Button> 
+                                                <Button id="submitButton" onClick={this.handleLogin, this.refreshPage}>Submit</Button> 
                                         </p> 
                                     </div>
                                     <div id="slider-div">
