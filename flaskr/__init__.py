@@ -47,7 +47,7 @@ def create_app(test_config=None):
     def create_bot():
         if (request.method=="POST"):
             form = request.values
-            name="Bot"+len(form.keys())
+            name="Bot"+len(_bots.keys())
             algorithm = form['bot_algorithm']
             _bots[name]=algorithm.split()
             print(_bots)
