@@ -47,6 +47,7 @@ def create_app(test_config=None):
     @app.route('/update_bot', methods=["POST"])
     def create_bot():
         if (request.method=="POST"):
+            print(request.values)
             form = request.values
             name="Bot"+str(len(_bots.keys()))
             algorithm = form['bot_algorithm']
@@ -166,7 +167,7 @@ def create_app(test_config=None):
         access_token=tempData['access_token']
         
         print(tempData)
-        return redirect(_domain_redir + "/home")
+        return redirect(_domain_redir + "/home/dashboard")
         
     @app.route('/api/purchase', methods=['POST'])
     def purchase():
@@ -265,8 +266,7 @@ def create_app(test_config=None):
 
         temp = float(response.text.split('"main":{"temp":')[1].split(",")[0])
         temp = 1.8 * (temp - 273) + 32
-
-        return temp < sometemp
+        return temp < float(sometemp)
 
     def isHighEnough(ticker, someprice):
         url = "https://finnhub-realtime-stock-price.p.rapidapi.com/quote"

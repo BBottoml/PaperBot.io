@@ -30,65 +30,56 @@ class Home extends React.Component {
     render() {
         return (
             <div>
-                {this.state.page === 'dashboard' ? (
-                    <div>
-                        <Animated animationIn="fadeInUp" animationOut="fadeOutUp" animationInDuration={1000} animationOutDuration={1000} isVisible={true}>
-                            <Container fluid={true}>
-                                <Row>
-                                    <Col>
-                                        <Graph />
-                                    </Col>
+                <Animated animationIn="fadeInUp" animationOut="fadeOutUp" animationInDuration={1000} animationOutDuration={1000} isVisible={true}>
+                    <Container fluid={true}>
+                        <Row>
+                            <Col>
+                                <Graph />
+                            </Col>
 
-                                    <Col style={{paddingTop: '65px'}}>
-                                        <StockTable />
-                                    </Col>
-                                </Row>
-                                <div id="home-log">Log</div>
-                                <Row id="bottom-row">
-                                    <Col>
-                                        <Scrollbar style={{height: '300px'}}>
-                                            <div>
-                                            <Alert variant={'info'}>
-                                                <p>12:34:43
-                                                Bot performed action2</p>
-                                            </Alert>
-                                            <Alert variant={'info'}>
-                                                <p>04:23:14
-                                                Bot performed action1</p>
-                                            </Alert>
-                                            <Alert variant={'info'}>
-                                                <p>04:23:14
-                                                Bot performed action1</p>
-                                            </Alert>
-                                            <Alert variant={'info'}>
-                                                <p>04:23:14
-                                                Bot performed action1</p>
-                                            </Alert>
-                                            <Alert variant={'info'}>
-                                                <p>04:23:14
-                                                Bot performed action1</p>
-                                            </Alert>
-                                            <Alert variant={'info'}>
-                                                <p>04:23:14
-                                                Bot performed action1</p>
-                                            </Alert>
-                                            </div>
-                                        </Scrollbar>
-                                    </Col>
+                            <Col style={{paddingTop: '65px'}}>
+                                <StockTable />
+                            </Col>
+                        </Row>
+                        <div id="home-log">Log</div>
+                        <Row id="bottom-row">
+                            <Col>
+                                <Scrollbar style={{height: '300px'}}>
+                                    <div>
+                                    <Alert variant={'info'}>
+                                        <p>12:34:43
+                                        Bot performed action2</p>
+                                    </Alert>
+                                    <Alert variant={'info'}>
+                                        <p>04:23:14
+                                        Bot performed action1</p>
+                                    </Alert>
+                                    <Alert variant={'info'}>
+                                        <p>04:23:14
+                                        Bot performed action1</p>
+                                    </Alert>
+                                    <Alert variant={'info'}>
+                                        <p>04:23:14
+                                        Bot performed action1</p>
+                                    </Alert>
+                                    <Alert variant={'info'}>
+                                        <p>04:23:14
+                                        Bot performed action1</p>
+                                    </Alert>
+                                    <Alert variant={'info'}>
+                                        <p>04:23:14
+                                        Bot performed action1</p>
+                                    </Alert>
+                                    </div>
+                                </Scrollbar>
+                            </Col>
 
-                                    <Col>
-                                        
-                                    </Col>
-                                </Row>
-                            </Container>
-                        </Animated>
-                    </div>
-                    ) : (
-                    <div>
-                        <Instructions />
-                    </div>
-                    )
-                }
+                            <Col>
+                                
+                            </Col>
+                        </Row>
+                    </Container>
+                </Animated>
             </div>
         );
     }

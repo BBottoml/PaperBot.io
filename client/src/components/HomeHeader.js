@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Navbar, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 import Home from './Home.js';
 
@@ -32,12 +33,11 @@ class HomeHeader extends Component {
                                 Trading Bot Dashboard
                             </Navbar.Brand>
                             <Navbar.Brand id="home-screen-button">
-                                <a id="home-screen-click" onClick={this.changePage.bind(this)} href='#'>
-                                    Trading Bot Instructions
-                                </a>
+                                <Link to='/home/instructions' id='home-screen-click' onClick={this.changePage.bind(this)}>
+                                    Trading Bot Instruction
+                                </Link>
                             </Navbar.Brand>
                         </Navbar>
-                        <Home pagetype={'dashboard'} />
                     </div>
                     ) : (
                     <div>
@@ -46,12 +46,11 @@ class HomeHeader extends Component {
                                 Trading Bot Instructions
                             </Navbar.Brand>
                             <Navbar.Brand id="home-screen-button">
-                                <a id="home-screen-click" onClick={this.changePage.bind(this)} href='#'>
+                            <Link to='/home/dashboard' id='home-screen-click' onClick={this.changePage.bind(this)}>
                                     Trading Bot Dashboard
-                                </a>
+                                </Link>
                             </Navbar.Brand>
                         </Navbar>
-                        <Home pagetype={'instructions'} />
                     </div>
                     )
                 }
