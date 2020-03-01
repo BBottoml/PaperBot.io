@@ -61,7 +61,7 @@ def create_app(test_config=None):
 
     @app.route('process_algorithm')
     def process_algorithm():
-        for bot_name in _bots.keys():
+        for name in _bots.keys():
             instruction_words_length = len(_bots[name])
             truth_value=True
             i=0
