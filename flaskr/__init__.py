@@ -9,6 +9,8 @@ import base64
 _client_id = "3c49486c11e7447df67dbbc26fb1168d"
 _client_secret = "076f599533ee5116190e7246b3c1a913c8e2fd31" 
 _domain = "http://localhost:5000"
+_domain_redir = "http://localhost:3000"
+
 _bots = dict()
 access_token = ""
 def create_app(test_config=None):
@@ -157,7 +159,7 @@ def create_app(test_config=None):
         access_token=tempData['access_token']
         
         print(tempData)
-        return redirect(url_for('purchase'))
+        return redirect(_domain_redir + "/home")
         
     @app.route('/api/purchase', methods=['POST'])
     def purchase():
