@@ -166,7 +166,7 @@ def create_app(test_config=None):
         access_token=tempData['access_token']
         
         print(tempData)
-        return redirect(_domain_redir + "/home")
+        return redirect(_domain_redir + "/home/dashboard")
         
     @app.route('/api/purchase', methods=['POST'])
     def purchase():
