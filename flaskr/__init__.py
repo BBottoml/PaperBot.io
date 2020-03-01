@@ -61,7 +61,7 @@ def create_app(test_config=None):
 
     @app.route('process_algorithm')
     def process_algorithm():
-        for bot_name in _bot.keys():
+        for bot_name in _bots.keys():
             instruction_words_length = len(_bots[name])
             truth_value=True
             i=0
@@ -139,7 +139,7 @@ def create_app(test_config=None):
     def isTrending(trend):
         client_key = 'uFTmFW66AAMEUwx3rZlZDMSCf'
         client_secret = 'LtlxIoQpBvHcqjpSMIA9Gs2E9wCJbr7xkx9EpSdBYoNedaZUgh'
-        
+
         key_secret = '{}:{}'.format(client_key, client_secret).encode('ascii')
         b64_encoded_key = base64.b64encode(key_secret)
         b64_encoded_key = b64_encoded_key.decode('ascii')
