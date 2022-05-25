@@ -28,7 +28,7 @@ marshmallow==2.19.5
 marshmallow-enum==1.5.1
 marshmallow-sqlalchemy==0.22.2
 prison==0.1.2
-PyJWT==1.7.1
+PyJWT==2.4.0
 pyrsistent==0.15.7
 python-dateutil==2.8.1
 python-editor==1.0.4
